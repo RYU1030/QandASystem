@@ -5,10 +5,12 @@ function editPopup() {
 
   const blackBg = document.getElementById('edit-popup-black-bg');
   const closeBtn = document.getElementById('edit-popup-close-btn');
+  const cancelBtn = document.getElementById('edit-cancel-btn')
   const showBtn = document.getElementById('edit-btn');
 
   closePopUp(blackBg);
   closePopUp(closeBtn);
+  closePopUp(cancelBtn);
   closePopUp(showBtn);
   function closePopUp(elem) {
     if (!elem) return;
@@ -25,10 +27,12 @@ function deletePopup() {
 
   const blackBg = document.getElementById('delete-popup-black-bg');
   const closeBtn = document.getElementById('delete-popup-close-btn');
+  const cancelBtn = document.getElementById('delete-cancel-btn')
   const showBtn = document.getElementById('delete-btn');
 
   closePopUp(blackBg);
   closePopUp(closeBtn);
+  closePopUp(cancelBtn);
   closePopUp(showBtn);
   function closePopUp(elem) {
     if (!elem) return;
@@ -45,10 +49,12 @@ function sendAnswerPopup() {
 
   const blackBg = document.getElementById('send-answer-popup-black-bg');
   const closeBtn = document.getElementById('send-answer-popup-close-btn');
+  const cancelBtn = document.getElementById('send-answer-cancel-btn')
   const showBtn = document.getElementById('send-answer-btn');
 
   closePopUp(blackBg);
   closePopUp(closeBtn);
+  closePopUp(cancelBtn);
   closePopUp(showBtn);
   function closePopUp(elem) {
     if (!elem) return;

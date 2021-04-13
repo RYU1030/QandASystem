@@ -125,7 +125,7 @@
         <div class="request-confirmation">
           <p>編集画面に移ります。よろしいですか。</p>
           <button class="request-confirmed">編集する</button>
-          <button>キャンセル</button>
+          <button id="edit-cancel-btn">キャンセル</button>
         </div>
       </div>
       <div class="black-background" id="edit-popup-black-bg"></div>
@@ -136,7 +136,7 @@
         <div class="request-confirmation">
           <p>削除します。よろしいですか。</p>
           <button class="request-confirmed">削除</button>
-          <button>キャンセル</button>
+          <button id="delete-cancel-btn">キャンセル</button>
         </div>
       </div>
       <div class="black-background" id="delete-popup-black-bg"></div>
@@ -147,7 +147,7 @@
         <div class="request-confirmation">
           <p>回答を送信します。よろしいですか。</p>
           <button class="request-confirmed">回答送信</button>
-          <button>キャンセル</button>
+          <button id="answer-send-cancel-btn">キャンセル</button>
         </div>
       </div>
       <div class="black-background" id="send-answer-popup-black-bg"></div>
