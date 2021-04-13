@@ -6,10 +6,12 @@ const popup = document.getElementById('js-popup');
 
   const blackBg = document.getElementById('js-black-bg');
   const closeBtn = document.getElementById('js-close-btn');
+  const cancelBtn = document.getElementById('request-canceled');
   const showBtn = document.getElementById('js-trigger');
 
   closePopUp(blackBg);
   closePopUp(closeBtn);
+  closePopUp(cancelBtn);
   closePopUp(showBtn);
   function closePopUp(elem) {
     if(!elem) return;

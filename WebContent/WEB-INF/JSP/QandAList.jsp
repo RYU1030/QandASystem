@@ -23,7 +23,7 @@
       <div class="top-message-wrapper">
         <div class="top-message-inner-wrapper">
           <h1 class="top-message">一人で悩まず、<br>誰かに質問してみよう:)</h1>
-          <p class="ask-questions"><a href="regist">質問する</a></p>
+          <p class="ask-questions"><a class="action-btn" href="regist">質問する</a></p>
         </div>
       </div>
     </section>
@@ -74,7 +74,7 @@
       </table>
     </section>
     <div class="page-bottom-wrapper">
-      <p class="ask-questions-bottom"><a href="regist">質問する</a></p>
+      <p class="ask-questions-bottom"><a class="action-btn" href="regist">質問する</a></p>
     </div>
   </main>
 </body>

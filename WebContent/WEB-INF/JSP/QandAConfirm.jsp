@@ -61,8 +61,8 @@
             </div>
             <div class="question-element edit-delete-execute">
               <p class="registered-key"><input type="text" class="user-input" placeholder="数字４桁以上"></p>
-              <button id="edit-btn" class="edit-execute">編集する</button>
-              <button id="delete-btn" class="delete-execute">削除する</button>
+              <button id="edit-btn" class="edit-execute action-btn">編集する</button>
+              <button id="delete-btn" class="delete-execute action-btn">削除する</button>
             </div>
           </div>
         </div>
@@ -111,7 +111,7 @@
                   <p class="send-answer-left-filler"></p>
                 </div>
                 <div class="send-answer">
-                  <button class="send-answer-btn" id="send-answer-btn">回答する</button>
+                  <button class="send-answer-btn action-btn" id="send-answer-btn">回答する</button>
                 </div>
               </div>
             </div>
@@ -124,8 +124,8 @@
         <div class="close-btn" id="edit-popup-close-btn"><i class="fas fa-times"></i></div>
         <div class="request-confirmation">
           <p>編集画面に移ります。よろしいですか。</p>
-          <button class="request-confirmed">編集する</button>
-          <button id="edit-cancel-btn">キャンセル</button>
+          <a class="request-confirmed" href="edit">編集する</a>
+          <button class="request-canceled" id="edit-cancel-btn">キャンセル</button>
         </div>
       </div>
       <div class="black-background" id="edit-popup-black-bg"></div>
@@ -135,8 +135,8 @@
         <div class="close-btn" id="delete-popup-close-btn"><i class="fas fa-times"></i></div>
         <div class="request-confirmation">
           <p>削除します。よろしいですか。</p>
-          <button class="request-confirmed">削除</button>
-          <button id="delete-cancel-btn">キャンセル</button>
+          <a class="request-confirmed" href="delete">削除</a>
+          <button class="request-canceled" id="delete-cancel-btn">キャンセル</button>
         </div>
       </div>
       <div class="black-background" id="delete-popup-black-bg"></div>
@@ -146,8 +146,8 @@
         <div class="close-btn" id="send-answer-popup-close-btn"><i class="fas fa-times"></i></div>
         <div class="request-confirmation">
           <p>回答を送信します。よろしいですか。</p>
-          <button class="request-confirmed">回答送信</button>
-          <button id="send-answer-cancel-btn">キャンセル</button>
+          <a class="request-confirmed" href="answer">回答送信</a>
+          <button class="request-canceled" id="send-answer-cancel-btn">キャンセル</button>
         </div>
       </div>
       <div class="black-background" id="send-answer-popup-black-bg"></div>

@@ -74,8 +74,8 @@
         </div>
       </div>
       <div class="register-cancel-execute">
-        <button class="register-btn" id="js-trigger">登録</button>
-        <p class="cancel-btn"><a href="list">キャンセル</a></p>
+        <button class="register-btn action-btn" id="js-trigger">登録</button>
+        <p class="cancel-btn"><a class="action-btn" href="list">キャンセル</a></p>
       </div>
     </section>
     <div class="popup" id="js-popup">
@@ -83,8 +83,8 @@
         <div class="close-btn" id="js-close-btn"><i class="fas fa-times"></i></div>
         <div class="request-confirmation">
           <p>登録します。よろしいですか。</p>
-          <button class="request-confirmed">登録</button>
-          <button>キャンセル</button>
+          <a class="request-confirmed" href="regist">登録</a>
+          <button class="request-canceled" id="request-canceled">キャンセル</button>
         </div>
       </div>
       <div class="black-background" id="js-black-bg"></div>

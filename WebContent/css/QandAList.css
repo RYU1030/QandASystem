@@ -17,6 +17,10 @@
   line-height: 40px;
   color: #006908;
 }
+.action-btn:hover,
+.article-title:hover {
+  opacity: .5;
+}
 .ask-questions > a {
   background-color: #fff;
   border: 1px solid #ccc;
