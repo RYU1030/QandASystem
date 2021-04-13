@@ -147,7 +147,7 @@
         <div class="request-confirmation">
           <p>回答を送信します。よろしいですか。</p>
           <button class="request-confirmed">回答送信</button>
-          <button id="answer-send-cancel-btn">キャンセル</button>
+          <button id="send-answer-cancel-btn">キャンセル</button>
         </div>
       </div>
       <div class="black-background" id="send-answer-popup-black-bg"></div>
