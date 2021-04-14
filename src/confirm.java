@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet implementation class confirm
+ * @author Ryunosuke Fukuda
+ * @version 1.0
  */
 @WebServlet("/confirm")
 public class confirm extends HttpServlet {
@@ -26,9 +28,9 @@ public class confirm extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * フォワード先（/WEB-INF/JSP/QandAConfirm.jsp）
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// フォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAConfirm.jsp");
 		dispatcher.forward(request, response);
 	}

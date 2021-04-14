@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet implementation class list
+ * @author Ryunosuke Fukuda
+ * @version 1.0
  */
+
 @WebServlet("/list")
 public class list extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -26,9 +29,9 @@ public class list extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * フォワード先（/WEB-INF/JSP/QandAList.jsp）
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// フォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAList.jsp");
 		dispatcher.forward(request, response);
 	}

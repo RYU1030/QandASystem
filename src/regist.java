@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet implementation class regist
+ * @author Ryunosuke Fukuda
+ * version 1.0
  */
 @WebServlet("/regist")
 public class regist extends HttpServlet {
@@ -26,9 +28,9 @@ public class regist extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * フォワード先（/WEB-INF/JSP/QandARegist.jsp）
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// フォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandARegist.jsp");
 		dispatcher.forward(request, response);
 	}

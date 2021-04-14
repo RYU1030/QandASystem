@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet implementation class edit
+ * @author Ryunosuke Fukuda
+ * @version 1.0
  */
 @WebServlet("/edit")
 public class edit extends HttpServlet {
@@ -26,9 +28,9 @@ public class edit extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * フォワード先（/WEB-INF/JSP/QandAEdit.jsp）
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// フォワード
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAEdit.jsp");
 		dispatcher.forward(request, response);
 	}
