@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class regist
  * @author Ryunosuke Fukuda
- * version 1.0
+ * @version 1.0
  */
 @WebServlet("/regist")
 public class regist extends HttpServlet {
