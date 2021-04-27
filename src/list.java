@@ -10,9 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class list
- * @author Ryunosuke Fukuda
- * @version 1.0
+ * listは、(/list)へのHttpリクエストを(/WEB-INF/JSP/QandAList.jsp)にフォワードさせるためのサーブレットクラスです。
+ * @author 福田龍之介
  */
 
 @WebServlet("/list")
@@ -28,7 +27,6 @@ public class list extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 * フォワード先（/WEB-INF/JSP/QandAList.jsp）
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
