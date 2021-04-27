@@ -29,7 +29,7 @@
             <p>名前（ハンドルネーム）</p>
           </div>
           <div class="question-element">
-            <p class="questioner-name"><input type="text" class="user-input" placeholder="名前（ハンドルネーム）"></p>
+            <p class="questioner-name"><input type="text" class="user-input" id="questioner-name" placeholder="名前（ハンドルネーム）"></p>
           </div>
         </div>
         <div class="question-element-row">
@@ -37,7 +37,7 @@
             <p>タイトル</p>
           </div>
           <div class="question-element">
-            <p class="question-title"><input type="text" class="user-input" placeholder="タイトル"></p>
+            <p class="question-title"><input type="text" class="user-input" id="question-title" placeholder="タイトル"></p>
           </div>
         </div>
         <div class="question-element-row">
@@ -45,7 +45,7 @@
             <p>内容</p>
           </div>
           <div class="question-element">
-            <textarea class="question-content" cols="30" rows="15" placeholder="内容"></textarea>
+            <textarea class="question-content" id="question-content" cols="30" rows="15" placeholder="内容"></textarea>
           </div>
         </div>
         <div class="question-element-row urgency-levels">
@@ -54,13 +54,13 @@
           </div>
           <div class="question-element urgency-levels-user-input">
             <p class="urgency">
-              <label for="urgent"><input type="radio" name="urgency" value="urgent" id="urgent">急いでいます</label>
+              <label for="urgent"><input type="radio" name="urgency" value="1" id="urgent">急いでいます</label>
             </p>
             <p class="urgency">
-              <label for="advisable"><input type="radio" name="urgency" value="advisable" id="advisable">困っています</label>
+              <label for="advisable"><input type="radio" name="urgency" value="2" id="advisable">困っています</label>
             </p>
             <p class="urgency">
-              <label for="anytime"><input type="radio" name="urgency" value="anytime" id="anytime">いつでも</label>
+              <label for="anytime"><input type="radio" name="urgency" value="3" id="anytime">いつでも</label>
             </p>
           </div>
         </div>
@@ -69,7 +69,7 @@
             <p>編集・削除キー</p>
           </div>
           <div class="register-cancel">
-            <p class="register-cancel-key"><input type="text" class="user-input" placeholder="数字4桁以上"></p>
+            <p class="register-cancel-key"><input type="text" class="user-input" id="register-cancel-key" placeholder="数字4桁以上"></p>
           </div>
         </div>
       </div>
@@ -83,7 +83,14 @@
         <div class="close-btn" id="js-close-btn"><i class="fas fa-times"></i></div>
         <div class="request-confirmation">
           <p>登録します。よろしいですか。</p>
-          <a class="request-confirmed" href="regist">登録</a>
+          <form action="regist" method="POST">
+            <button class="request-confirmed">登録</button>
+            <input type="hidden" name="user-input-questioner-name" id="user-input-questioner-name">
+            <input type="hidden" name="user-input-question-title" id="user-input-question-title">
+            <input type="hidden" name="user-input-question-content" id="user-input-question-content">
+            <input type="hidden" name="user-input-question-urgency" id="user-input-question-urgency">
+            <input type="hidden" name="user-input-register-cancel-key" id="user-input-register-cancel-key">
+          </form>
           <button class="request-canceled" id="request-canceled">キャンセル</button>
         </div>
       </div>
