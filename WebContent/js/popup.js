@@ -21,7 +21,7 @@ function popup() {
       const questionTitle = document.getElementById('question-title').value;
       const questionContent = document.getElementById('question-content').value;
       const radio = document.getElementsByName("urgency");
-      var questionUrgency = "";
+      var questionUrgency = 0;
       for (i = 0; i < radio.length; i++) {
         if (radio[i].checked) {
           // ラジオボタン選択値の取得
