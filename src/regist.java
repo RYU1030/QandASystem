@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -50,22 +49,20 @@ public class regist extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// リクエストパラメータの取得
-		// response.setContentType("text/html;charset=Shift_JIS");
-		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		String questionerName = request.getParameter("user-input-questioner-name");
 		String questionTitle = request.getParameter("user-input-question-title");
 		String questionContent = request.getParameter("user-input-question-content");
 		int questionUrgency = Integer.parseInt(request.getParameter("user-input-question-urgency"));
 
-		try {
+		if (questionerName != "" && questionTitle != "" && questionContent != "" && questionUrgency != 0 ) {
+			try {
 			// JDBCドライバを読み込む
 			Class.forName("org.postgresql.Driver");
-
 			// DBへ接続
 			conn = DriverManager.getConnection(url, user, password);
 
 			// INSERT文を用意
-			Statement stmt = conn.createStatement();
 			String sql = "INSERT INTO questions (question_id, handle_name, title, contents, urgency, edit_delete_key, regist_timestamp, update_timestamp) VALUES (nextval('question_id_seq'), ?, ?, ?, ?, ?, Now(), Now())";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 
@@ -79,26 +76,25 @@ public class regist extends HttpServlet {
 			} else {
 				pstmt.setString(5, null);
 			}
-
-			stmt.executeUpdate(sql);
-		} catch(SQLException e) {
-			e.printStackTrace();
-		} catch(ClassNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			// DB切断
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch(SQLException e) {
-					e.printStackTrace();
+			pstmt.executeUpdate();
+			response.sendRedirect("/QandASystem/list");
+			} catch(SQLException e) {
+				e.printStackTrace();
+			} catch(ClassNotFoundException e) {
+				e.printStackTrace();
+			} finally {
+				// DB切断
+				if (conn != null) {
+					try {
+						conn.close();
+					} catch(SQLException e) {
+						e.printStackTrace();
+					}
 				}
 			}
+		} else {
+			request.setAttribute("errorMsg", "必須項目のいずれかが未入力です。");
+			//			response.sendRedirect("/QandASystem/regist");
 		}
-
-		// TODO Auto-generated method stub
-		// doGet(request, response);
-		// response.sendRedirect("/QandASystem/list");
 	}
-
 }
