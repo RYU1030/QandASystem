@@ -93,8 +93,9 @@ public class regist extends HttpServlet {
 				}
 			}
 		} else {
-			request.setAttribute("errorMsg", "必須項目のいずれかが未入力です。");
-			//			response.sendRedirect("/QandASystem/regist");
+			request.setAttribute("errorMsg", "必須項目のいずれか（名前/タイトル/内容/緊急度）が未入力/未選択です。");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandARegist.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 }

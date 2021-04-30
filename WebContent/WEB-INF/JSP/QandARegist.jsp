@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% String errorMsg = (String) request.getAttribute("errorMsg"); %>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -21,6 +22,11 @@
   <main>
     <section class="page-subtitle-container">
       <h1 class="page-subtitle">質問登録</h1>
+      <% if (errorMsg != null) { %>
+        <div class="error-msg">
+          <p><%= errorMsg %></p>
+        </div>
+      <% } %>
     </section>
     <section class="main-outer-wrapper-common">
       <div class="main-inner-wrapper-common">
@@ -69,7 +75,7 @@
             <p>編集・削除キー</p>
           </div>
           <div class="register-cancel">
-            <p class="register-cancel-key"><input type="text" class="user-input" id="register-cancel-key" placeholder="数字4桁以上"></p>
+            <p class="register-cancel-key"><input type="text" class="user-input" id="register-cancel-key" placeholder="例）1234, abc"></p>
           </div>
         </div>
       </div>
@@ -83,15 +89,15 @@
         <div class="close-btn" id="js-close-btn"><i class="fas fa-times"></i></div>
         <div class="request-confirmation">
           <p>登録します。よろしいですか。</p>
-          <form action="regist" method="POST">
+          <form class="register-form" action="regist" method="POST">
             <button class="request-confirmed">登録</button>
             <input type="hidden" name="user-input-questioner-name" id="user-input-questioner-name">
             <input type="hidden" name="user-input-question-title" id="user-input-question-title">
             <input type="hidden" name="user-input-question-content" id="user-input-question-content">
             <input type="hidden" name="user-input-question-urgency" id="user-input-question-urgency">
             <input type="hidden" name="user-input-register-cancel-key" id="user-input-register-cancel-key">
+            <div class="request-canceled" id="request-canceled">キャンセル</div>
           </form>
-          <button class="request-canceled" id="request-canceled">キャンセル</button>
         </div>
       </div>
       <div class="black-background" id="js-black-bg"></div>
