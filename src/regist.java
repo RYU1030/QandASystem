@@ -50,10 +50,15 @@ public class regist extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// リクエストパラメータの取得
 		request.setCharacterEncoding("UTF-8");
+
+		/**
+		 *
+		 */
 		String questionerName = request.getParameter("user-input-questioner-name");
 		String questionTitle = request.getParameter("user-input-question-title");
 		String questionContent = request.getParameter("user-input-question-content");
 		int questionUrgency = Integer.parseInt(request.getParameter("user-input-question-urgency"));
+		String EditDeleteKey = request.getParameter("user-input-register-cancel-key");
 
 		if (questionerName != "" && questionTitle != "" && questionContent != "" && questionUrgency != 0 ) {
 			try {
@@ -70,12 +75,8 @@ public class regist extends HttpServlet {
 			pstmt.setString(2, questionTitle);
 			pstmt.setString(3, questionContent);
 			pstmt.setInt(4, questionUrgency);
-			if (request.getParameter("user-input-register-cancel-key") != null) {
-				String EditDeleteKey = request.getParameter("user-input-register-cancel-key");
-				pstmt.setString(5, EditDeleteKey);
-			} else {
-				pstmt.setString(5, null);
-			}
+			pstmt.setString(5, EditDeleteKey);
+
 			pstmt.executeUpdate();
 			response.sendRedirect("/QandASystem/list");
 			} catch(SQLException e) {
@@ -94,6 +95,10 @@ public class regist extends HttpServlet {
 			}
 		} else {
 			request.setAttribute("errorMsg", "必須項目のいずれか（名前/タイトル/内容/緊急度）が未入力/未選択です。");
+			request.setAttribute("questionerName", questionerName);
+			request.setAttribute("questionTitle", questionTitle);
+			request.setAttribute("questionContent", questionContent);
+			request.setAttribute("EditDeleteKey", EditDeleteKey);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandARegist.jsp");
 			dispatcher.forward(request, response);
 		}
