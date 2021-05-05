@@ -1,9 +1,6 @@
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import model.PostQuestionLogic;
+import model.Question;
 
 /**
  * Servlet implementation class regist
@@ -51,9 +51,6 @@ public class regist extends HttpServlet {
 		// リクエストパラメータの取得
 		request.setCharacterEncoding("UTF-8");
 
-		/**
-		 *
-		 */
 		String questionerName = request.getParameter("user-input-questioner-name");
 		String questionTitle = request.getParameter("user-input-question-title");
 		String questionContent = request.getParameter("user-input-question-content");
@@ -61,38 +58,12 @@ public class regist extends HttpServlet {
 		String EditDeleteKey = request.getParameter("user-input-register-cancel-key");
 
 		if (questionerName != "" && questionTitle != "" && questionContent != "" && questionUrgency != 0 ) {
-			try {
-			// JDBCドライバを読み込む
-			Class.forName("org.postgresql.Driver");
-			// DBへ接続
-			conn = DriverManager.getConnection(url, user, password);
+			Question question = new Question(questionerName, questionTitle, questionContent, questionUrgency, EditDeleteKey);
+			PostQuestionLogic postQuestionLogic = new PostQuestionLogic();
+			postQuestionLogic.excecute(question);
 
-			// INSERT文を用意
-			String sql = "INSERT INTO questions (question_id, handle_name, title, contents, urgency, edit_delete_key, regist_timestamp, update_timestamp) VALUES (nextval('question_id_seq'), ?, ?, ?, ?, ?, Now(), Now())";
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-
-			pstmt.setString(1, questionerName);
-			pstmt.setString(2, questionTitle);
-			pstmt.setString(3, questionContent);
-			pstmt.setInt(4, questionUrgency);
-			pstmt.setString(5, EditDeleteKey);
-
-			pstmt.executeUpdate();
 			response.sendRedirect("/QandASystem/list");
-			} catch(SQLException e) {
-				e.printStackTrace();
-			} catch(ClassNotFoundException e) {
-				e.printStackTrace();
-			} finally {
-				// DB切断
-				if (conn != null) {
-					try {
-						conn.close();
-					} catch(SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			}
+
 		} else {
 			request.setAttribute("errorMsg", "必須項目のいずれか（名前/タイトル/内容/緊急度）が未入力/未選択です。");
 			request.setAttribute("questionerName", questionerName);
