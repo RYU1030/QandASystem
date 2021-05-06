@@ -2,6 +2,15 @@ package model;
 
 import java.io.Serializable;
 
+/**
+ * Questionは、データ挿入時に必要となるQuestionのカラムを定義するクラスです。
+ * @param handle_name 質問者ハンドルネーム
+ * @param title 質問タイトル
+ * @param contents 質問内容
+ * @param urgency 緊急度
+ * @param edit_delete_key 編集・削除キー
+ */
+
 public class Question implements Serializable {
 	private String handle_name;
 	private String title;
@@ -13,7 +22,7 @@ public class Question implements Serializable {
 	  public Question (String handle_name, String title, String contents, int urgency, String edit_delete_key) {
 	    this.handle_name = handle_name;
 	    this.title = title;
-		this.contents = contents;
+	    this.contents = contents;
 	    this.urgency = urgency;
 	    this.edit_delete_key = edit_delete_key;
 	  }

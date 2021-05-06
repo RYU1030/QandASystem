@@ -7,14 +7,22 @@ import java.sql.SQLException;
 
 import model.Question;
 
-public class QuestionsDAO {
+/**
+ * QuestionsDAOは、DBへの接続と操作を担当するクラスです。
+ * @param DRIVER_NAME ドライバ名
+ * @param URL DBのURL
+ * @param USER DBユーザ名
+ * @param PASSWORD DBパスワード
+ */
 
+public class QuestionsDAO {
     // URL・ユーザ名・パスワードの設定
     private final static String DRIVER_NAME = "org.postgresql.Driver";
     private final static String URL = "jdbc:postgresql://localhost/QandA";
     private final static String USER = "ryunosukefukuda";
     private final static String PASSWORD = "password";
 
+    // 質問登録の処理
     public boolean create(Question question) {
     	Connection conn = null;  // コネクションオブジェクト
     	try {

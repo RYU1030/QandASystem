@@ -1,6 +1,5 @@
 
 import java.io.IOException;
-import java.sql.Connection;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,17 +12,12 @@ import model.PostQuestionLogic;
 import model.Question;
 
 /**
- * Servlet implementation class regist
- * @author Ryunosuke Fukuda
- * @version 1.0
+ * registは、/registにアクセスされた際の処理を定義するサーブレットクラスです。
  */
 @WebServlet("/regist")
 public class regist extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public regist() {
         super();
         // TODO Auto-generated constructor stub
@@ -33,11 +27,6 @@ public class regist extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 * フォワード先（/WEB-INF/JSP/QandARegist.jsp）
 	 */
-
-	Connection conn = null;
-	String url = "jdbc:postgresql://localhost/QandA";
-	String user = "ryunosukefukuda";
-	String password = "password";
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandARegist.jsp");
@@ -60,11 +49,12 @@ public class regist extends HttpServlet {
 		if (questionerName != "" && questionTitle != "" && questionContent != "" && questionUrgency != 0 ) {
 			Question question = new Question(questionerName, questionTitle, questionContent, questionUrgency, EditDeleteKey);
 			PostQuestionLogic postQuestionLogic = new PostQuestionLogic();
-			postQuestionLogic.excecute(question);
+			postQuestionLogic.execute(question);
 
 			response.sendRedirect("/QandASystem/list");
 
 		} else {
+			// 必須項目一つでも未入力の場合は、エラーメッセージを定義の上、質問登録画面にフォワードする。
 			request.setAttribute("errorMsg", "必須項目のいずれか（名前/タイトル/内容/緊急度）が未入力/未選択です。");
 			request.setAttribute("questionerName", questionerName);
 			request.setAttribute("questionTitle", questionTitle);
