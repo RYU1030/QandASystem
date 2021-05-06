@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% String errorMsg = (String) request.getAttribute("errorMsg"); %>
+<% String questionerName = (String) request.getAttribute("questionerName"); %>
+<% String questionTitle = (String) request.getAttribute("questionTitle"); %>
+<% String questionContent = (String) request.getAttribute("questionContent"); %>
+<% String EditDeleteKey = (String) request.getAttribute("EditDeleteKey"); %>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -21,6 +26,11 @@
   <main>
     <section class="page-subtitle-container">
       <h1 class="page-subtitle">質問登録</h1>
+      <% if (errorMsg != null) { %>
+        <div class="error-msg">
+          <p><%= errorMsg %></p>
+        </div>
+      <% } %>
     </section>
     <section class="main-outer-wrapper-common">
       <div class="main-inner-wrapper-common">
@@ -29,7 +39,7 @@
             <p>名前（ハンドルネーム）</p>
           </div>
           <div class="question-element">
-            <p class="questioner-name"><input type="text" class="user-input" placeholder="名前（ハンドルネーム）"></p>
+            <p class="questioner-name"><input type="text" class="user-input" id="questioner-name" placeholder="名前（ハンドルネーム）" value="<% if (questionerName != null) { out.println(questionerName); } %>"></p>
           </div>
         </div>
         <div class="question-element-row">
@@ -37,7 +47,7 @@
             <p>タイトル</p>
           </div>
           <div class="question-element">
-            <p class="question-title"><input type="text" class="user-input" placeholder="タイトル"></p>
+            <p class="question-title"><input type="text" class="user-input" id="question-title" placeholder="タイトル" value="<% if (questionTitle != null) { out.println(questionTitle); } %>"></p>
           </div>
         </div>
         <div class="question-element-row">
@@ -45,7 +55,7 @@
             <p>内容</p>
           </div>
           <div class="question-element">
-            <textarea class="question-content" cols="30" rows="15" placeholder="内容"></textarea>
+            <textarea class="question-content" id="question-content" cols="30" rows="15" placeholder="内容"><% if (questionContent != null) { out.println(questionContent); } %></textarea>
           </div>
         </div>
         <div class="question-element-row urgency-levels">
@@ -54,13 +64,13 @@
           </div>
           <div class="question-element urgency-levels-user-input">
             <p class="urgency">
-              <label for="urgent"><input type="radio" name="urgency" value="urgent" id="urgent">急いでいます</label>
+              <label for="urgent"><input type="radio" name="urgency" value="1" id="urgent">急いでいます</label>
             </p>
             <p class="urgency">
-              <label for="advisable"><input type="radio" name="urgency" value="advisable" id="advisable">困っています</label>
+              <label for="advisable"><input type="radio" name="urgency" value="2" id="advisable">困っています</label>
             </p>
             <p class="urgency">
-              <label for="anytime"><input type="radio" name="urgency" value="anytime" id="anytime">いつでも</label>
+              <label for="anytime"><input type="radio" name="urgency" value="3" id="anytime">いつでも</label>
             </p>
           </div>
         </div>
@@ -69,7 +79,7 @@
             <p>編集・削除キー</p>
           </div>
           <div class="register-cancel">
-            <p class="register-cancel-key"><input type="text" class="user-input" placeholder="数字4桁以上"></p>
+            <p class="register-cancel-key"><input type="text" class="user-input" id="register-cancel-key" placeholder="例）1234, abc" value="<% if (EditDeleteKey != null) { out.println(EditDeleteKey); } %>"></p>
           </div>
         </div>
       </div>
@@ -83,8 +93,15 @@
         <div class="close-btn" id="js-close-btn"><i class="fas fa-times"></i></div>
         <div class="request-confirmation">
           <p>登録します。よろしいですか。</p>
-          <a class="request-confirmed" href="regist">登録</a>
-          <button class="request-canceled" id="request-canceled">キャンセル</button>
+          <form class="register-form" action="regist" method="POST">
+            <button class="request-confirmed">登録</button>
+            <input type="hidden" name="user-input-questioner-name" id="user-input-questioner-name">
+            <input type="hidden" name="user-input-question-title" id="user-input-question-title">
+            <input type="hidden" name="user-input-question-content" id="user-input-question-content">
+            <input type="hidden" name="user-input-question-urgency" id="user-input-question-urgency">
+            <input type="hidden" name="user-input-register-cancel-key" id="user-input-register-cancel-key">
+            <div class="request-canceled" id="request-canceled">キャンセル</div>
+          </form>
         </div>
       </div>
       <div class="black-background" id="js-black-bg"></div>

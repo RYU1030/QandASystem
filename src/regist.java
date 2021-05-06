@@ -1,5 +1,4 @@
 
-
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -9,18 +8,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.PostQuestionLogic;
+import model.Question;
+
 /**
- * Servlet implementation class regist
- * @author Ryunosuke Fukuda
- * @version 1.0
+ * registは、/registにアクセスされた際の処理を定義するサーブレットクラスです。
  */
 @WebServlet("/regist")
 public class regist extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public regist() {
         super();
         // TODO Auto-generated constructor stub
@@ -30,6 +27,7 @@ public class regist extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 * フォワード先（/WEB-INF/JSP/QandARegist.jsp）
 	 */
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandARegist.jsp");
 		dispatcher.forward(request, response);
@@ -39,8 +37,31 @@ public class regist extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+		// リクエストパラメータの取得
+		request.setCharacterEncoding("UTF-8");
 
+		String questionerName = request.getParameter("user-input-questioner-name");
+		String questionTitle = request.getParameter("user-input-question-title");
+		String questionContent = request.getParameter("user-input-question-content");
+		int questionUrgency = Integer.parseInt(request.getParameter("user-input-question-urgency"));
+		String EditDeleteKey = request.getParameter("user-input-register-cancel-key");
+
+		if (questionerName != "" && questionTitle != "" && questionContent != "" && questionUrgency != 0 ) {
+			Question question = new Question(questionerName, questionTitle, questionContent, questionUrgency, EditDeleteKey);
+			PostQuestionLogic postQuestionLogic = new PostQuestionLogic();
+			postQuestionLogic.execute(question);
+
+			response.sendRedirect("/QandASystem/list");
+
+		} else {
+			// 必須項目一つでも未入力の場合は、エラーメッセージを定義の上、質問登録画面にフォワードする。
+			request.setAttribute("errorMsg", "必須項目のいずれか（名前/タイトル/内容/緊急度）が未入力/未選択です。");
+			request.setAttribute("questionerName", questionerName);
+			request.setAttribute("questionTitle", questionTitle);
+			request.setAttribute("questionContent", questionContent);
+			request.setAttribute("EditDeleteKey", EditDeleteKey);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandARegist.jsp");
+			dispatcher.forward(request, response);
+		}
+	}
 }
