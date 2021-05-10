@@ -40,11 +40,16 @@ public class regist extends HttpServlet {
 		// リクエストパラメータの取得
 		request.setCharacterEncoding("UTF-8");
 
-		String questionerName = request.getParameter("user-input-questioner-name");
-		String questionTitle = request.getParameter("user-input-question-title");
-		String questionContent = request.getParameter("user-input-question-content");
-		int questionUrgency = Integer.parseInt(request.getParameter("user-input-question-urgency"));
-		String EditDeleteKey = request.getParameter("user-input-register-cancel-key");
+		String questionerName = request.getParameter("questioner-name");
+		String questionTitle = request.getParameter("question-title");
+		String questionContent = request.getParameter("question-content");
+		// 緊急度はデフォルトで0をセットする
+		int questionUrgency = 0;
+		if (request.getParameter("urgency") != null) {
+			questionUrgency = Integer.parseInt(request.getParameter("urgency"));
+		}
+
+		String EditDeleteKey = request.getParameter("register-cancel-key");
 
 		if (questionerName != "" && questionTitle != "" && questionContent != "" && questionUrgency != 0 ) {
 			Question question = new Question(questionerName, questionTitle, questionContent, questionUrgency, EditDeleteKey);
@@ -52,7 +57,6 @@ public class regist extends HttpServlet {
 			postQuestionLogic.execute(question);
 
 			response.sendRedirect("/QandASystem/list");
-
 		} else {
 			// 必須項目一つでも未入力の場合は、エラーメッセージを定義の上、質問登録画面にフォワードする。
 			request.setAttribute("errorMsg", "必須項目のいずれか（名前/タイトル/内容/緊急度）が未入力/未選択です。");

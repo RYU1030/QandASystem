@@ -34,55 +34,58 @@
     </section>
     <section class="main-outer-wrapper-common">
       <div class="main-inner-wrapper-common">
-        <div class="question-element-row">
-          <div class="question-element-title">
-            <p>名前（ハンドルネーム）</p>
+        <form name="questionForm" action="regist" method="POST">
+          <div class="question-element-row">
+            <div class="question-element-title">
+              <p>名前（ハンドルネーム）</p>
+            </div>
+            <div class="question-element">
+              <p class="questioner-name"><input type="text" class="user-input" name="questioner-name" placeholder="名前（ハンドルネーム）" value="<% if (questionerName != null) { out.println(questionerName); } %>"></p>
+            </div>
           </div>
-          <div class="question-element">
-            <p class="questioner-name"><input type="text" class="user-input" id="questioner-name" placeholder="名前（ハンドルネーム）" value="<% if (questionerName != null) { out.println(questionerName); } %>"></p>
+          <div class="question-element-row">
+            <div class="question-element-title">
+              <p>タイトル</p>
+            </div>
+            <div class="question-element">
+              <p class="question-title"><input type="text" class="user-input" name="question-title" placeholder="タイトル" value="<% if (questionTitle != null) { out.println(questionTitle); } %>"></p>
+            </div>
           </div>
-        </div>
-        <div class="question-element-row">
-          <div class="question-element-title">
-            <p>タイトル</p>
+          <div class="question-element-row">
+            <div class="question-element-title">
+              <p>内容</p>
+            </div>
+            <div class="question-element">
+              <textarea class="question-content" name="question-content" cols="30" rows="15" placeholder="内容"><% if (questionContent != null) { out.println(questionContent); } %></textarea>
+            </div>
           </div>
-          <div class="question-element">
-            <p class="question-title"><input type="text" class="user-input" id="question-title" placeholder="タイトル" value="<% if (questionTitle != null) { out.println(questionTitle); } %>"></p>
+          <div class="question-element-row urgency-levels">
+            <div class="question-element-title">
+              <p>緊急度</p>
+            </div>
+            <div class="question-element urgency-levels-user-input">
+              <p class="urgency">
+                <label for="urgent"><input type="radio" name="urgency" value="1" id="urgent">急いでいます</label>
+              </p>
+              <p class="urgency">
+                <label for="advisable"><input type="radio" name="urgency" value="2" id="advisable">困っています</label>
+              </p>
+              <p class="urgency">
+                <label for="anytime"><input type="radio" name="urgency" value="3" id="anytime">いつでも</label>
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="question-element-row">
-          <div class="question-element-title">
-            <p>内容</p>
+          <div class="question-element-row">
+            <div class="question-element-title">
+              <p>編集・削除キー</p>
+            </div>
+            <div class="register-cancel">
+              <p class="register-cancel-key"><input type="text" class="user-input" name="register-cancel-key" placeholder="例）1234, abc" value="<% if (EditDeleteKey != null) { out.println(EditDeleteKey); } %>"></p>
+            </div>
           </div>
-          <div class="question-element">
-            <textarea class="question-content" id="question-content" cols="30" rows="15" placeholder="内容"><% if (questionContent != null) { out.println(questionContent); } %></textarea>
-          </div>
-        </div>
-        <div class="question-element-row urgency-levels">
-          <div class="question-element-title">
-            <p>緊急度</p>
-          </div>
-          <div class="question-element urgency-levels-user-input">
-            <p class="urgency">
-              <label for="urgent"><input type="radio" name="urgency" value="1" id="urgent">急いでいます</label>
-            </p>
-            <p class="urgency">
-              <label for="advisable"><input type="radio" name="urgency" value="2" id="advisable">困っています</label>
-            </p>
-            <p class="urgency">
-              <label for="anytime"><input type="radio" name="urgency" value="3" id="anytime">いつでも</label>
-            </p>
-          </div>
-        </div>
-        <div class="question-element-row">
-          <div class="question-element-title">
-            <p>編集・削除キー</p>
-          </div>
-          <div class="register-cancel">
-            <p class="register-cancel-key"><input type="text" class="user-input" id="register-cancel-key" placeholder="例）1234, abc" value="<% if (EditDeleteKey != null) { out.println(EditDeleteKey); } %>"></p>
-          </div>
-        </div>
+        </form>
       </div>
+
       <div class="register-cancel-execute">
         <button class="register-btn action-btn" id="js-trigger">登録</button>
         <p class="cancel-btn"><a class="action-btn" href="list">キャンセル</a></p>
@@ -93,15 +96,8 @@
         <div class="close-btn" id="js-close-btn"><i class="fas fa-times"></i></div>
         <div class="request-confirmation">
           <p>登録します。よろしいですか。</p>
-          <form class="register-form" action="regist" method="POST">
-            <button class="request-confirmed">登録</button>
-            <input type="hidden" name="user-input-questioner-name" id="user-input-questioner-name">
-            <input type="hidden" name="user-input-question-title" id="user-input-question-title">
-            <input type="hidden" name="user-input-question-content" id="user-input-question-content">
-            <input type="hidden" name="user-input-question-urgency" id="user-input-question-urgency">
-            <input type="hidden" name="user-input-register-cancel-key" id="user-input-register-cancel-key">
-            <div class="request-canceled" id="request-canceled">キャンセル</div>
-          </form>
+            <button id="question-registry-btn" class="request-confirmed">登録</button>
+            <button class="request-canceled" id="request-canceled">キャンセル</button>
         </div>
       </div>
       <div class="black-background" id="js-black-bg"></div>
