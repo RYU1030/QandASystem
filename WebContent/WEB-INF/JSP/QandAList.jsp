@@ -1,4 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="model.Question, java.util.Date, java.util.List" %>
+<%
+	@SuppressWarnings("unchecked")
+	List<Question> questionList = (List<Question>) request.getAttribute("questionList");
+%>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -9,6 +15,8 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/QandAList.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/QAndACommon.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
   <title>みんなの質問部屋</title>
 </head>
 
@@ -39,30 +47,16 @@
           <th class="last-th">更新日</th>
         </tr>
         <!-- 以下は後から繰り返し処理で描画する -->
-        <tr>
-          <td>1</td>
-          <td>いつでも</td>
-          <td><a href="confirm" class="article-title">PHPの変数に入った値をブラウザに表示させたい</a></td>
-          <td>山田太郎</td>
-          <td>3/7</td>
-          <td>3/7</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>いつでも</td>
-          <td><a href="#" class="article-title">〇〇の件について</a></td>
-          <td>山田太郎</td>
-          <td>3/7</td>
-          <td>3/7</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>いつでも</td>
-          <td><a href="#" class="article-title">〇〇の件について</a></td>
-          <td>山田太郎</td>
-          <td>3/7</td>
-          <td>3/7</td>
-        </tr>
+        <c:forEach var="question" items="${questionList}">
+          <tr>
+            <td><c:out value="${question.question_id}" /></td>
+            <td><c:out value="${question.urgency_message}" /></td>
+            <td style="width: 450px;"><c:out value="${question.title}" /></td>
+            <td style="width: 200px;"><c:out value="${question.handle_name}" /></td>
+            <td><c:out value="${question.registered_date}" /></td>
+            <td><c:out value="${question.updated_date}" /></td>
+          </tr>
+        </c:forEach>
         <tr class="fake-row">
           <td></td>
           <td></td>
