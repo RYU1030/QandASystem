@@ -49,12 +49,12 @@
         <!-- 以下は後から繰り返し処理で描画する -->
         <c:forEach var="question" items="${questionList}">
           <tr>
-            <td><c:out value="${question.question_id}" /></td>
-            <td><c:out value="${question.urgency_message}" /></td>
+            <td><c:out value="${question.questionId}" /></td>
+            <td><c:out value="${question.urgencyMessage}" /></td>
             <td style="width: 450px;"><c:out value="${question.title}" /></td>
-            <td style="width: 200px;"><c:out value="${question.handle_name}" /></td>
-            <td><c:out value="${question.registered_date}" /></td>
-            <td><c:out value="${question.updated_date}" /></td>
+            <td style="width: 200px;"><c:out value="${question.handleName}" /></td>
+            <td><c:out value="${question.registeredDate}" /></td>
+            <td><c:out value="${question.updatedDate}" /></td>
           </tr>
         </c:forEach>
         <tr class="fake-row">

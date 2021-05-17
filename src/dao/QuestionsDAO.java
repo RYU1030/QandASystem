@@ -1,5 +1,7 @@
 package dao;
 
+import static constants.UrgencyMessages.*;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -43,37 +45,33 @@ public class QuestionsDAO {
 
 				// SELECT文の結果をArrayListに格納
 				while (rs.next()) {
-					int question_id = rs.getInt("question_id");
-					String handle_name = rs.getString("handle_name");
+					int questionId = rs.getInt("question_id");
+					String handleName = rs.getString("handle_name");
 					String title = rs.getString("title");
 					String contents = rs.getString("contents");
 					int urgency = rs.getInt("urgency");
-					// urgencyの数値に基づき、緊急度を示す文言を定義する
-					String urgent = "急いでいます";
-					String need_advice = "困っています";
-					String anytime = "いつでも";
-					String urgency_message;
+					String urgencyMessage;
 					if (urgency == 1) {
-						urgency_message = urgent;
+						urgencyMessage = URGENT;
 					} else if (urgency == 2) {
-						urgency_message = need_advice;
+						urgencyMessage = NEED_ADVICE;
 					} else {
-						urgency_message = anytime;
+						urgencyMessage = ANYTIME;
 					}
-					String edit_delete_key = rs.getString("edit_delete_key");
+					String editDeleteKey = rs.getString("edit_delete_key");
 					// 登録日時をDate型で取得
-					Date registered_date = rs.getDate("regist_timestamp");
+					Date registeredDate = rs.getDate("regist_timestamp");
 					// 更新日時をDate型で取得
-					Date updated_date = rs.getDate("update_timestamp");
+					Date updatedDate = rs.getDate("update_timestamp");
 					Question question = new Question();
-					question.setQuestion_id(question_id);
-					question.setHandle_name(handle_name);
+					question.setQuestionId(questionId);
+					question.setHandleName(handleName);
 					question.setTitle(title);
 					question.setContents(contents);
-					question.setUrgency_message(urgency_message);
-					question.setEdit_delete_key(edit_delete_key);
-					question.setRegistered_date(registered_date);
-					question.setUpdated_date(updated_date);
+					question.setUrgencyMessage(urgencyMessage);
+					question.setEditDeleteKey(editDeleteKey);
+					question.setRegisteredDate(registeredDate);
+					question.setUpdatedDate(updatedDate);
 					questionList.add(question);
 				}
 			} catch (SQLException e) {
@@ -114,11 +112,11 @@ public class QuestionsDAO {
     		String sql = "INSERT INTO questions (question_id, handle_name, title, contents, urgency, edit_delete_key, regist_timestamp, update_timestamp) VALUES (nextval('question_id_seq'), ?, ?, ?, ?, ?, Now(), Now())";
     		PreparedStatement pstmt = conn.prepareStatement(sql);
 
-    		pstmt.setString(1, question.getHandle_name());
+    		pstmt.setString(1, question.getHandleName());
     		pstmt.setString(2, question.getTitle());
     		pstmt.setString(3, question.getContents());
     		pstmt.setInt(4, question.getUrgency());
-    		pstmt.setString(5, question.getEdit_delete_key());
+    		pstmt.setString(5, question.getEditDeleteKey());
 
     		int result = pstmt.executeUpdate();
     		if (result != 1) {
