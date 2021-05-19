@@ -51,7 +51,7 @@
           <tr>
             <td><c:out value="${question.questionId}" /></td>
             <td><c:out value="${question.urgencyMessage}" /></td>
-            <td style="width: 450px;"><c:out value="${question.title}" /></td>
+            <td style="width: 450px;"><a href="confirm?questionId=${question.questionId}"><c:out value="${question.title}" /></a></td>
             <td style="width: 200px;"><c:out value="${question.handleName}" /></td>
             <td><c:out value="${question.registeredDate}" /></td>
             <td><c:out value="${question.updatedDate}" /></td>
