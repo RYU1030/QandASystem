@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="model.Question" %>
+<%
+	Question question = (Question) request.getAttribute("question");
+%>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -21,7 +26,7 @@
   </header>
   <main>
     <section class="page-subtitle-container">
-      <h1 class="page-subtitle">PHPの変数に入った値をブラウザに表示させたい</h1>
+      <h1 class="page-subtitle">${question.title}</h1>
     </section>
     <section class="main-outer-wrapper-confirm">
       <div class="main-inner-wrapper-confirm">
@@ -31,7 +36,7 @@
               <p>質問者名</p>
             </div>
             <div class="question-element">
-              <p class="user-input questioner-name">山田太郎</p>
+              <p class="user-input questioner-name">${question.handleName}</p>
             </div>
           </div>
           <div class="question-element-row">
@@ -39,12 +44,7 @@
               <p>質問内容</p>
             </div>
             <div class="question-element">
-              <p class="question-content">作りたいものはDBからランダムなidでのお題をとってきて、それをhtmlに表示させるというものを想定しています。
-                phpの変数の値をhtml側で表示させようとしているのですが、phpの変数に値が入っていないというエラーが出てきてしまいます。console.logやvar_dumpで確認するとhtml側のphpの変数にきちんと値が入っているのですがブラウザでは値が入っていないと判断されエラーが出てきてしまいます。
-
-                どのようにすればブラウザに変数に値が入っているかわかってもらえるのでしょうか？
-
-                よろしくお願いします。</p>
+              <p class="question-content">${question.contents}</p>
             </div>
           </div>
           <div class="question-element-row urgency-levels-confirmed">
@@ -52,7 +52,7 @@
               <p>緊急度</p>
             </div>
             <div class="question-element urgency-levels-user-input">
-              <p class="confirmed-urgency">急いでいます</p>
+              <p class="confirmed-urgency">${question.urgencyMessage}</p>
             </div>
           </div>
           <div class="question-element-row">
