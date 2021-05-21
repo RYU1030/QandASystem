@@ -1,6 +1,7 @@
 
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Answer;
+import model.GetAnswerListLogic;
 import model.Question;
 import model.SelectQuestionLogic;
 
@@ -36,9 +39,12 @@ public class confirm extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		final int questionId = Integer.parseInt(request.getParameter("questionId"));
 		// 質問リストを取得して、リクエストスコープに保存
+		GetAnswerListLogic getAnswerListLogic = new GetAnswerListLogic();
+		List<Answer> answerList = getAnswerListLogic.execute(questionId);
 		SelectQuestionLogic SelectQuestionLogic = new SelectQuestionLogic();
 		Question question = SelectQuestionLogic.execute(questionId);
 		request.setAttribute("question", question);
+		request.setAttribute("answerList", answerList);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAConfirm.jsp");
 		dispatcher.forward(request, response);
