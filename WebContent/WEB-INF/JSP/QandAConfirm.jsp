@@ -84,14 +84,14 @@
         </section>
         <section class="your-answer-outer-wrapper">
           <h2 class="your-answer">あなたの回答</h2>
-          <div class="your-answer-inner-wrapper">
+          <form name="answerForm" action="answer?questionId=${question.questionId}" method="POST">
             <div class="your-answer-inner-wrapper">
               <div class="your-answer-element-row">
                 <div class="your-answer-element-title">
                   <p class="your-name">名前（ハンドルネーム）</p>
                 </div>
                 <div class="your-answer-element">
-                  <p><input type="text" class="user-input" placeholder="名前（ハンドルネーム）"></p>
+                  <p><input type="text" class="user-input" name="answerer-name" placeholder="名前（ハンドルネーム）"></p>
                 </div>
               </div>
               <div class="your-answer-element-row">
@@ -99,7 +99,7 @@
                   <p class="your-answer">内容</p>
                 </div>
                 <div class="your-answer-element your-answer-content">
-                  <textarea cols="30" rows="15" placeholder="内容"></textarea>
+                  <textarea name="answer-content" cols="30" rows="15" placeholder="内容"></textarea>
                 </div>
               </div>
               <div class="your-answer-element-row">
@@ -111,7 +111,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </section>
       </div>
     </section>

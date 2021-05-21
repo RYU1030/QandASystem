@@ -28,7 +28,8 @@ public class Question implements Serializable {
 	private Date updatedDate;
 
 	public Question(){}
-	  public Question (String handleName, String title, String contents, int urgency, String editDeleteKey) {
+	  public Question (int questionId, String handleName, String title, String contents, int urgency, String editDeleteKey) {
+		this.questionId = questionId;
 	    this.handleName = handleName;
 	    this.title = title;
 	    this.contents = contents;

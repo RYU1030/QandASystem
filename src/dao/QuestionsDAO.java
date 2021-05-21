@@ -109,12 +109,13 @@ public class QuestionsDAO {
 				// DBへ接続
 				conn = DriverManager.getConnection(URL, USER, PASSWORD);
 				// SQL文を用意
-				String sql = "SELECT handle_name, title, contents, urgency, edit_delete_key FROM questions WHERE question_id = ?";
+				String sql = "SELECT question_id, handle_name, title, contents, urgency, edit_delete_key FROM questions WHERE question_id = ?";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, questionId);
 
 				ResultSet rs = pstmt.executeQuery();
 				while (rs.next()) {
+					int questionSeqId = rs.getInt("question_id");
 					String handleName = rs.getString("handle_name");
 					String title = rs.getString("title");
 					String contents = rs.getString("contents");
@@ -127,6 +128,7 @@ public class QuestionsDAO {
 					} else {
 						urgencyMessage = ANYTIME;
 					}
+					question.setQuestionId(questionSeqId);
 					question.setHandleName(handleName);
 					question.setTitle(title);
 					question.setContents(contents);
