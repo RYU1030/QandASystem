@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Questionは、データ挿入時に必要となるQuestionのカラムを定義するクラスです。
+ * Questionは、Questionを形成するデータ群を定義するクラスです。
+ * @param questionId 質問ID
  * @param handleName 質問者ハンドルネーム
  * @param title 質問タイトル
  * @param contents 質問内容
  * @param urgency 緊急度
+ * @param urgencyMessage 緊急度メッセージ
  * @param editDeleteKey 編集・削除キー
+ * @param registeredDate 登録日
+ * @param updatedDate 更新日
  */
 
 public class Question implements Serializable {
