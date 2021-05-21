@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="model.Question" %>
+<%@ page import="model.Question, model.Answer, java.util.Date, java.util.List" %>
 <%
+	@SuppressWarnings("unchecked")
+	List<Answer> answerList = (List<Answer>) request.getAttribute("answerList");
 	Question question = (Question) request.getAttribute("question");
 %>
 <!DOCTYPE html>
@@ -16,6 +18,8 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/fontawesome.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/QAndACommon.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/QAndAConfirm.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
 </head>
 
 <body>
@@ -69,21 +73,13 @@
         <section class="answer-list-outer-wrapper">
           <div class="answer-list-wrapper">
             <!-- 以降は後ほど繰り返し処理で描画する -->
+            <c:forEach var="answer" items="${answerList}">
             <div class="each-answer">
-              <p class="answerer-name answer-element">Aさん</p>
-              <p class="posted-at answer-element">2021/03/11 9:00</p>
-              <p class="answer answer-element">私は、○○だと思います。</p>
+              <p class="answerer-name answer-element">${answer.handleName}</p>
+              <p class="posted-at answer-element">${answer.registDateTime}</p>
+              <p class="answer answer-element">${answer.contents}</p>
             </div>
-            <div class="each-answer">
-              <p class="answerer-name answer-element">Bさん</p>
-              <p class="posted-at answer-element">2021/03/11 9:00</p>
-              <p class="answer answer-element">私は、○○だと思います。</p>
-            </div>
-            <div class="each-answer">
-              <p class="answerer-name answer-element">Cさん</p>
-              <p class="posted-at answer-element">2021/03/11 9:00</p>
-              <p class="answer answer-element">私は、○○だと思います。</p>
-            </div>
+            </c:forEach>
           </div>
         </section>
         <section class="your-answer-outer-wrapper">
