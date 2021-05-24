@@ -12,9 +12,8 @@ public class Answer implements Serializable {
 	public Answer(){}
 
 	// 回答登録の際に使用するコンストラクタ
-	public Answer(int questionId, int seq, String handleName, String contents) {
+	public Answer(int questionId, String handleName, String contents) {
 		this.questionId = questionId;
-		this.seq = seq;
 		this.handleName = handleName;
 		this.contents = contents;
 	}
