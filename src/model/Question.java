@@ -36,6 +36,13 @@ public class Question implements Serializable {
 	    this.urgency = urgency;
 	    this.editDeleteKey = editDeleteKey;
 	  }
+	  public Question (String handleName, String title, String contents, int urgency, String editDeleteKey) {
+	    this.handleName = handleName;
+	    this.title = title;
+	    this.contents = contents;
+	    this.urgency = urgency;
+	    this.editDeleteKey = editDeleteKey;
+	  }
 	  public Question (int questionId, String handleName, String title, String contents, String urgencyMessage, String editDeleteKey, Date registeredDate, Date updatedDate) {
 		  this.questionId = questionId;
 		  this.handleName = handleName;
