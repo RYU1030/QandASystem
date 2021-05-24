@@ -10,6 +10,16 @@ public class Answer implements Serializable {
 	private String registDateTime;
 
 	public Answer(){}
+
+	// 回答登録の際に使用するコンストラクタ
+	public Answer(int questionId, int seq, String handleName, String contents) {
+		this.questionId = questionId;
+		this.seq = seq;
+		this.handleName = handleName;
+		this.contents = contents;
+	}
+
+	// 回答一覧取得の際に使用するコンストラクタ
 	public Answer(int questionId, int seq, String handleName, String contents, String registDateTime) {
 		this.questionId = questionId;
 		this.seq = seq;
