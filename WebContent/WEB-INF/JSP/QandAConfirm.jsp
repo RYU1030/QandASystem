@@ -84,6 +84,7 @@
               <p class="answer answer-element">${answer.contents}</p>
             </div>
             </c:forEach>
+          <!-- 未回答の場合は、下記を表示する -->
           <% } else { %>
             <p>未回答です。</p>
           <% } %>
@@ -92,6 +93,7 @@
         <section class="your-answer-outer-wrapper">
           <div class="your-answer-header">
             <h2 class="your-answer">あなたの回答</h2>
+            <!-- 回答登録エラー発生時の処理 -->
             <% if (errorMsgAnswer != null) { %>
             <div class="error-msg">
               <p><%= errorMsgAnswer %></p>

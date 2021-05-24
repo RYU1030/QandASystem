@@ -38,7 +38,7 @@ public class confirm extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		final int questionId = Integer.parseInt(request.getParameter("questionId"));
-		// 質問リストを取得して、リクエストスコープに保存
+		// questionIdを引数に、質問リストを取得してリクエストスコープに保存
 		GetAnswerListLogic getAnswerListLogic = new GetAnswerListLogic();
 		List<Answer> answerList = getAnswerListLogic.execute(questionId);
 		SelectQuestionLogic SelectQuestionLogic = new SelectQuestionLogic();

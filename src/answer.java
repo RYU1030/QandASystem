@@ -59,11 +59,11 @@ public class answer extends HttpServlet {
 		} else {
 			// 必須項目一つでも未入力の場合は、エラーメッセージを定義の上、送信前の画面にフォワードする
 			request.setAttribute("errorMsgAnswer", "必須項目のいずれか（名前/タイトル）が未入力/未選択です。");
+			// 入力済み項目がある場合は、jspに値を渡す
 			request.setAttribute("answererName", answererName);
 			request.setAttribute("answerContent", answerContent);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/confirm?questionId=" + questionId);
 			dispatcher.forward(request, response);
 		}
 	}
-
 }
