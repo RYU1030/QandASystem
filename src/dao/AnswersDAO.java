@@ -37,7 +37,7 @@ public class AnswersDAO {
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
 
 			// SELECT文を用意
-			String sql = "SELECT question_id, seq, handle_name, contents, regist_timestamp FROM answers WHERE question_id = ? ORDER BY seq DESC";
+			String sql = "SELECT question_id, seq, handle_name, contents, regist_timestamp FROM answers WHERE question_id = ? ORDER BY seq ASC";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, questionId);
 
@@ -79,5 +79,64 @@ public class AnswersDAO {
 			}
 		}
 		return answerList;
+    }
+
+	// 回答登録の処理
+    public boolean create(Answer answer) {
+    	Connection conn = null;  // コネクションオブジェクト
+    	try {
+			// JDBCドライバを読み込む
+			try {
+				Class.forName(DRIVER_NAME);
+			} catch (ClassNotFoundException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
+    		// DBへ接続
+    		conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+    		// 回答登録に際して、postされたquestion_idに基づき該当の質問に対する次のseqを取得する
+    		String getMaxSeq = "SELECT MAX(seq) AS maxSeq FROM answers WHERE question_id = ?";
+    		PreparedStatement getMaxSeqPstmt = conn.prepareStatement(getMaxSeq);
+
+    		getMaxSeqPstmt.setInt(1, answer.getQuestionId());
+
+    		// SQL問い合わせ結果をmaxSeqRsに格納
+    		ResultSet maxSeqRs = getMaxSeqPstmt.executeQuery();
+    		//
+    		while (maxSeqRs.next()) {
+    			int maxSeq = maxSeqRs.getInt("maxSeq");
+    			// seq最大値+1の値を、新規登録する回答情報のseqとしてセットする
+    			int nextSeq = maxSeq + 1;
+
+        		// INSERT文を用意
+        		String sql = "INSERT INTO answers (question_id, seq, handle_name, contents, regist_timestamp) VALUES (?, ?, ?, ?, Now())";
+        		PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        		pstmt.setInt(1, answer.getQuestionId());
+        		pstmt.setInt(2, nextSeq);
+        		pstmt.setString(3, answer.getHandleName());
+        		pstmt.setString(4, answer.getContents());
+
+        		int result = pstmt.executeUpdate();
+        		if (result != 1) {
+        			return false;
+        		}
+    		}
+
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    		return false;
+    	} finally {
+    		// DB切断
+    		if (conn != null) {
+    			try {
+    				conn.close();
+    			} catch (SQLException e) {
+    				e.printStackTrace();
+    			}
+    		}
+    	}
+    	return false;
     }
 }
