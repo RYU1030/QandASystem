@@ -57,7 +57,7 @@ public class answer extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/confirm?questionId=" + answer.getQuestionId());
 
 		} else {
-			// 必須項目一つでも未入力の場合は、エラーメッセージを定義の上、質問登録画面にフォワードする
+			// 必須項目一つでも未入力の場合は、エラーメッセージを定義の上、送信前の画面にフォワードする
 			request.setAttribute("errorMsgAnswer", "必須項目のいずれか（名前/タイトル）が未入力/未選択です。");
 			request.setAttribute("answererName", answererName);
 			request.setAttribute("answerContent", answerContent);
