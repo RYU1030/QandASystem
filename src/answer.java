@@ -48,6 +48,7 @@ public class answer extends HttpServlet {
 
 		// 必要な情報が全てpostされた場合にのみ、回答登録の処理に移行する
 		if (questionId >= 0 && answererName != "" && answerContent != "") {
+			// 登録する回答情報をコンストラクトする
 			Answer answer = new Answer(questionId, answererName, answerContent);
 			PostAnswerLogic postAnswerLogic = new PostAnswerLogic();
 			postAnswerLogic.execute(answer);
