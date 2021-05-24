@@ -52,6 +52,8 @@ function sendAnswerPopup() {
   const cancelBtn = document.getElementById('send-answer-cancel-btn')
   const showBtn = document.getElementById('send-answer-btn');
 
+  const answerRegistryBtn = document.getElementById('answer-registry-btn');
+
   closePopUp(blackBg);
   closePopUp(closeBtn);
   closePopUp(cancelBtn);
@@ -61,6 +63,13 @@ function sendAnswerPopup() {
     elem.addEventListener('click', function () {
       popup.classList.toggle('is-show');
     });
+  }
+  sendAnswerForm(answerRegistryBtn);
+  function sendAnswerForm(elem) {
+    if (!elem) return;
+    elem.addEventListener('click', function () {
+      document.answerForm.submit();
+    })
   }
 }
 

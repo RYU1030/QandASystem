@@ -60,10 +60,16 @@ p.confirmed-urgency {
   font-size: 15px;
 }
 
+.your-answer-header {
+  text-align: center;
+  margin-bottom: 56.4px;
+}
 h2.your-answer {
   font-size: 28px;
-  margin-bottom: 56.4px;
-  text-align: center;
+  margin-bottom: 12px;
+}
+.answer-form {
+  margin-bottom: 27px;
 }
 .your-answer-element-row {
   display: flex;
