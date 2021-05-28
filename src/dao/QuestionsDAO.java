@@ -95,7 +95,7 @@ public class QuestionsDAO {
 		}
 
 		// 質問詳細情報の取得
-		public Question questionConfirm(int questionId) {
+		public Question questionConfirm(int questionId) throws SQLException, ClassNotFoundException {
 			Connection conn = null;
 			Question question = new Question();
 

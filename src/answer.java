@@ -1,6 +1,7 @@
 
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -51,8 +52,15 @@ public class answer extends HttpServlet {
 			// 登録する回答情報をコンストラクトする
 			Answer answer = new Answer(questionId, answererName, answerContent);
 			PostAnswerLogic postAnswerLogic = new PostAnswerLogic();
-			postAnswerLogic.execute(answer);
-
+			try {
+				// 回答送信ロジック実行
+				postAnswerLogic.execute(answer);
+			} catch (SQLException | ClassNotFoundException e) {
+				// DB関連のエラーをキャッチした時は、エラー画面に遷移させ処理を終わらせる
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAError.jsp");
+				dispatcher.forward(request, response);
+				return;
+			}
 			// 回答登録完了後、送信前画面にリダイレクトする
 			response.sendRedirect(request.getContextPath() + "/confirm?questionId=" + answer.getQuestionId());
 

@@ -1,6 +1,7 @@
 
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -37,19 +38,33 @@ public class confirm extends HttpServlet {
 	 * フォワード先（/WEB-INF/JSP/QandAConfirm.jsp）
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// URLパラメータからquestionIdを取得する
 		final int questionId = Integer.parseInt(request.getParameter("questionId"));
-		// questionIdを引数に、質問リストを取得してリクエストスコープに保存
 		GetAnswerListLogic getAnswerListLogic = new GetAnswerListLogic();
-		List<Answer> answerList = getAnswerListLogic.execute(questionId);
+		try {
+			// questionIdを引数に、回答リストを取得してリクエストスコープに保存
+			List<Answer> answerList = getAnswerListLogic.execute(questionId);
+			request.setAttribute("answerList", answerList);
+		} catch (SQLException | ClassNotFoundException e) {
+			// DB関連のエラーをキャッチした時は、エラー画面に遷移させ処理を終わらせる
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAError.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
 		SelectQuestionLogic SelectQuestionLogic = new SelectQuestionLogic();
-		Question question = SelectQuestionLogic.execute(questionId);
-		request.setAttribute("question", question);
-		request.setAttribute("answerList", answerList);
-
+		try {
+			// questionIdを引数に、該当の質問を取得してリクエストスコープに保存
+			Question question = SelectQuestionLogic.execute(questionId);
+			request.setAttribute("question", question);
+		} catch (SQLException | ClassNotFoundException e) {
+			// DB関連のエラーをキャッチした時は、エラー画面に遷移させ処理を終わらせる
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAError.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAConfirm.jsp");
 		dispatcher.forward(request, response);
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.SQLException;
+
 import dao.AnswersDAO;
 
 /**
@@ -7,7 +9,7 @@ import dao.AnswersDAO;
  */
 
 public class PostAnswerLogic {
-	public void execute (Answer answer) {
+	public void execute (Answer answer) throws SQLException, ClassNotFoundException  {
 		AnswersDAO dao = new AnswersDAO();
 		dao.create(answer);
 	}
