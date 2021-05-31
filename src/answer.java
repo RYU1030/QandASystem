@@ -56,7 +56,12 @@ public class answer extends HttpServlet {
 				// 回答送信ロジック実行
 				postAnswerLogic.execute(answer);
 			} catch (SQLException | ClassNotFoundException e) {
-				// DB関連のエラーをキャッチした時は、エラー画面に遷移させ処理を終わらせる
+				// DB関連の例外をキャッチした時は、エラー画面に遷移させ処理を終わらせる
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAError.jsp");
+				dispatcher.forward(request, response);
+				return;
+			} catch (Exception e) {
+				// 予期せぬエラーをキャッチした時も同様に、エラー画面に遷移させ処理を終わらせる
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAError.jsp");
 				dispatcher.forward(request, response);
 				return;

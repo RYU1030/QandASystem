@@ -50,7 +50,13 @@ public class confirm extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAError.jsp");
 			dispatcher.forward(request, response);
 			return;
+		} catch (Exception e) {
+			// 予期せぬエラーをキャッチした時も同様に、エラー画面に遷移させ処理を終わらせる
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAError.jsp");
+			dispatcher.forward(request, response);
+			return;
 		}
+		
 		SelectQuestionLogic SelectQuestionLogic = new SelectQuestionLogic();
 		try {
 			// questionIdを引数に、該当の質問を取得してリクエストスコープに保存
@@ -58,6 +64,11 @@ public class confirm extends HttpServlet {
 			request.setAttribute("question", question);
 		} catch (SQLException | ClassNotFoundException e) {
 			// DB関連のエラーをキャッチした時は、エラー画面に遷移させ処理を終わらせる
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAError.jsp");
+			dispatcher.forward(request, response);
+			return;
+		} catch (Exception e) {
+			// 予期せぬエラーをキャッチした時も同様に、エラー画面に遷移させ処理を終わらせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAError.jsp");
 			dispatcher.forward(request, response);
 			return;
