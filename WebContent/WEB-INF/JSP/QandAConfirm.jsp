@@ -1,4 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="model.Question, model.Answer, java.util.Date, java.util.List" %>
+<% String errorMsgAnswer = (String) request.getAttribute("errorMsgAnswer"); %>
+<% String answererName = (String) request.getAttribute("answererName"); %>
+<% String answerContent = (String) request.getAttribute("answerContent"); %>
+<%
+	@SuppressWarnings("unchecked")
+	List<Answer> answerList = (List<Answer>) request.getAttribute("answerList");
+	Question question = (Question) request.getAttribute("question");
+%>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -11,6 +21,8 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/fontawesome.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/QAndACommon.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/QAndAConfirm.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
 </head>
 
 <body>
@@ -21,7 +33,7 @@
   </header>
   <main>
     <section class="page-subtitle-container">
-      <h1 class="page-subtitle">PHPの変数に入った値をブラウザに表示させたい</h1>
+      <h1 class="page-subtitle">${question.title}</h1>
     </section>
     <section class="main-outer-wrapper-confirm">
       <div class="main-inner-wrapper-confirm">
@@ -31,7 +43,7 @@
               <p>質問者名</p>
             </div>
             <div class="question-element">
-              <p class="user-input questioner-name">山田太郎</p>
+              <p class="user-input questioner-name">${question.handleName}</p>
             </div>
           </div>
           <div class="question-element-row">
@@ -39,12 +51,7 @@
               <p>質問内容</p>
             </div>
             <div class="question-element">
-              <p class="question-content">作りたいものはDBからランダムなidでのお題をとってきて、それをhtmlに表示させるというものを想定しています。
-                phpの変数の値をhtml側で表示させようとしているのですが、phpの変数に値が入っていないというエラーが出てきてしまいます。console.logやvar_dumpで確認するとhtml側のphpの変数にきちんと値が入っているのですがブラウザでは値が入っていないと判断されエラーが出てきてしまいます。
-
-                どのようにすればブラウザに変数に値が入っているかわかってもらえるのでしょうか？
-
-                よろしくお願いします。</p>
+              <p class="question-content">${question.contents}</p>
             </div>
           </div>
           <div class="question-element-row urgency-levels-confirmed">
@@ -52,7 +59,7 @@
               <p>緊急度</p>
             </div>
             <div class="question-element urgency-levels-user-input">
-              <p class="confirmed-urgency">急いでいます</p>
+              <p class="confirmed-urgency">${question.urgencyMessage}</p>
             </div>
           </div>
           <div class="question-element-row">
@@ -68,34 +75,39 @@
         </div>
         <section class="answer-list-outer-wrapper">
           <div class="answer-list-wrapper">
+          <% if (!answerList.isEmpty()) { %>
             <!-- 以降は後ほど繰り返し処理で描画する -->
+            <c:forEach var="answer" items="${answerList}">
             <div class="each-answer">
-              <p class="answerer-name answer-element">Aさん</p>
-              <p class="posted-at answer-element">2021/03/11 9:00</p>
-              <p class="answer answer-element">私は、○○だと思います。</p>
+              <p class="answerer-name answer-element">${answer.handleName}</p>
+              <p class="posted-at answer-element">${answer.registDateTime}</p>
+              <p class="answer answer-element">${answer.contents}</p>
             </div>
-            <div class="each-answer">
-              <p class="answerer-name answer-element">Bさん</p>
-              <p class="posted-at answer-element">2021/03/11 9:00</p>
-              <p class="answer answer-element">私は、○○だと思います。</p>
-            </div>
-            <div class="each-answer">
-              <p class="answerer-name answer-element">Cさん</p>
-              <p class="posted-at answer-element">2021/03/11 9:00</p>
-              <p class="answer answer-element">私は、○○だと思います。</p>
-            </div>
+            </c:forEach>
+          <!-- 未回答の場合は、下記を表示する -->
+          <% } else { %>
+            <p>未回答です。</p>
+          <% } %>
           </div>
         </section>
         <section class="your-answer-outer-wrapper">
-          <h2 class="your-answer">あなたの回答</h2>
-          <div class="your-answer-inner-wrapper">
+          <div class="your-answer-header">
+            <h2 class="your-answer">あなたの回答</h2>
+            <!-- 回答登録エラー発生時の処理 -->
+            <% if (errorMsgAnswer != null) { %>
+            <div class="error-msg">
+              <p><%= errorMsgAnswer %></p>
+            </div>
+            <% } %>
+          </div>
+          <form class="answer-form" name="answerForm" action="answer?questionId=${question.questionId}" method="POST">
             <div class="your-answer-inner-wrapper">
               <div class="your-answer-element-row">
                 <div class="your-answer-element-title">
                   <p class="your-name">名前（ハンドルネーム）</p>
                 </div>
                 <div class="your-answer-element">
-                  <p><input type="text" class="user-input" placeholder="名前（ハンドルネーム）"></p>
+                  <p><input type="text" class="user-input" name="answerer-name" placeholder="名前（ハンドルネーム）" value="<% if (answererName != null) { out.println(answererName); } %>"></p>
                 </div>
               </div>
               <div class="your-answer-element-row">
@@ -103,17 +115,18 @@
                   <p class="your-answer">内容</p>
                 </div>
                 <div class="your-answer-element your-answer-content">
-                  <textarea cols="30" rows="15" placeholder="内容"></textarea>
+                  <textarea name="answer-content" cols="30" rows="15" placeholder="内容"><% if (answerContent != null) { out.println(answerContent); } %></textarea>
                 </div>
               </div>
-              <div class="your-answer-element-row">
-                <div class="your-answer-element-title">
-                  <p class="send-answer-left-filler"></p>
-                </div>
-                <div class="send-answer">
-                  <button class="send-answer-btn action-btn" id="send-answer-btn">回答する</button>
-                </div>
-              </div>
+            </div>
+            <input name="question_id" type="hidden" value="${question.questionId}">
+          </form>
+          <div class="your-answer-element-row">
+            <div class="your-answer-element-title">
+              <p class="send-answer-left-filler"></p>
+            </div>
+            <div class="send-answer">
+              <button class="send-answer-btn action-btn" id="send-answer-btn">回答する</button>
             </div>
           </div>
         </section>
@@ -146,7 +159,7 @@
         <div class="close-btn" id="send-answer-popup-close-btn"><i class="fas fa-times"></i></div>
         <div class="request-confirmation">
           <p>回答を送信します。よろしいですか。</p>
-          <a class="request-confirmed" href="answer">回答送信</a>
+          <button id="answer-registry-btn" class="request-confirmed">回答送信</button>
           <button class="request-canceled" id="send-answer-cancel-btn">キャンセル</button>
         </div>
       </div>
