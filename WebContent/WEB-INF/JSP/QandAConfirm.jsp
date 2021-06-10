@@ -67,7 +67,10 @@
               <p>編集・削除キー</p>
             </div>
             <div class="question-element edit-delete-execute">
-              <p class="registered-key"><input type="text" class="user-input" placeholder="数字４桁以上"></p>
+              <form name="editForm" method="POST" action="edit">
+                <p class="registered-key"><input type="text" name="editDeleteKey" class="user-input" placeholder="数字４桁以上"></p>
+                <input name="question_id" type="hidden" value="${question.questionId}">
+              </form>
               <button id="edit-btn" class="edit-execute action-btn">編集する</button>
               <button id="delete-btn" class="delete-execute action-btn">削除する</button>
             </div>
@@ -137,7 +140,7 @@
         <div class="close-btn" id="edit-popup-close-btn"><i class="fas fa-times"></i></div>
         <div class="request-confirmation">
           <p>編集画面に移ります。よろしいですか。</p>
-          <a class="request-confirmed" href="edit">編集する</a>
+          <button id="edit-confirmed-btn" class="request-confirmed">編集する</button>
           <button class="request-canceled" id="edit-cancel-btn">キャンセル</button>
         </div>
       </div>
@@ -148,7 +151,7 @@
         <div class="close-btn" id="delete-popup-close-btn"><i class="fas fa-times"></i></div>
         <div class="request-confirmation">
           <p>削除します。よろしいですか。</p>
-          <a class="request-confirmed" href="delete">削除</a>
+          <button class="request-confirmed">削除</button>
           <button class="request-canceled" id="delete-cancel-btn">キャンセル</button>
         </div>
       </div>
