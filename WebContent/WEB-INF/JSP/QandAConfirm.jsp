@@ -2,8 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="model.Question, model.Answer, java.util.Date, java.util.List" %>
 <% String errorMsgAnswer = (String) request.getAttribute("errorMsgAnswer"); %>
-<% final String errorId = (String) request.getParameter("errorId"); %>
-<% final String errorMsgKeyUnmatched = "「編集・削除キーが一致しません。」"; %>
+<% String errorId = (String) request.getParameter("errorId"); %>
+<% String errorMsgKeyUnmatched = "「編集・削除キーが一致しません。」"; %>
 <% String answererName = (String) request.getAttribute("answererName"); %>
 <% String answerContent = (String) request.getAttribute("answerContent"); %>
 <%
