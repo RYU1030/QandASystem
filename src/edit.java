@@ -34,8 +34,8 @@ public class edit extends HttpServlet {
 	 * フォワード先（/WEB-INF/JSP/QandAEdit.jsp）
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAEdit.jsp");
-		dispatcher.forward(request, response);
+		// 編集画面に直接アクセスされた際は、質問一覧画面に強制リダイレクトさせる
+		response.sendRedirect("/QandASystem/list");
 	}
 
 	/**
@@ -47,19 +47,21 @@ public class edit extends HttpServlet {
 		int questionId = Integer.parseInt(request.getParameter("question_id"));
 		String editDeleteKey = request.getParameter("edit-delete-key");
 
+		// 「編集・削除キー」がNULLではない場合に限り、DBへの問い合わせを行う
 		if (questionId > 0 && editDeleteKey != "") {
 			VerifyKeyGetQuestionLogic VerifyKeyGetQuestionLogic = new VerifyKeyGetQuestionLogic();
 			try {
+				// POSTされたquestionIdをキーに質問情報を取得する
 				Question question = VerifyKeyGetQuestionLogic.execute(questionId);
+				// 取得した質問情報から「編集・削除キー」を変数に格納する
 				String verifyKey = question.getEditDeleteKey();
-
+				// POSTされた「編集・削除キー」がDBの値と一致した場合は、取得した質問情報をJSPに渡し、編集画面に遷移する
 				if (editDeleteKey.equals(verifyKey)) {
 					request.setAttribute("question", question);
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAEdit.jsp");
-
-					System.out.println(question);
 					dispatcher.forward(request, response);
 				} else {
+					// 入力された「編集・削除キー」と、DBの値が一致しない場合は、errorIdを設定し、元の画面にリダイレクト
 					response.sendRedirect("/QandASystem/confirm?questionId=" + questionId + "&errorId=" + 1);
 				}
 			} catch (Exception e) {
@@ -69,6 +71,7 @@ public class edit extends HttpServlet {
 				return;
 			}
 		} else {
+			// 「編集・削除キー」を未入力でPOSTした際は、DBへの問い合わせを行わず、質問確認画面へリダイレクトさせる
 			response.sendRedirect("/QandASystem/confirm?questionId=" + questionId + "&errorId=" + 2);
 		}
 	}
