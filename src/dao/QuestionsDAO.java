@@ -151,6 +151,57 @@ public class QuestionsDAO {
 			return question;
 		}
 
+		// 質問詳細情報の取得
+		public Question questionEdit(int questionId) throws SQLException, ClassNotFoundException {
+			Connection conn = null;
+			Question question = new Question();
+
+			try {
+				// JDBCドライバを読み込む
+				try {
+					Class.forName(DRIVER_NAME);
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				// DBへ接続
+				conn = DriverManager.getConnection(URL, USER, PASSWORD);
+				// SQL文を用意
+				String sql = "SELECT question_id, handle_name, title, contents, urgency, edit_delete_key FROM questions WHERE question_id = ?";
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, questionId);
+
+				ResultSet rs = pstmt.executeQuery();
+				while (rs.next()) {
+					int questionSeqId = rs.getInt("question_id");
+					String handleName = rs.getString("handle_name");
+					String title = rs.getString("title");
+					String contents = rs.getString("contents");
+					int urgency = rs.getInt("urgency");
+					String editDeleteKey = rs.getString("edit_delete_key");
+					question.setQuestionId(questionSeqId);
+					question.setHandleName(handleName);
+					question.setTitle(title);
+					question.setContents(contents);
+					question.setUrgency(urgency);
+					question.setEditDeleteKey(editDeleteKey);
+				}
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return null;
+				} finally {
+				// DBから切断
+				if (conn != null) {
+					try {
+						conn.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+						return null;
+					}
+				}
+			}
+			return question;
+		}
+
     // 質問登録の処理
     public boolean create(Question question) {
     	Connection conn = null;  // コネクションオブジェクト
