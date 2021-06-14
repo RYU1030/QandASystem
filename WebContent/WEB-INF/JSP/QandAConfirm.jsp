@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="model.Question, model.Answer, java.util.Date, java.util.List" %>
 <% String errorMsgAnswer = (String) request.getAttribute("errorMsgAnswer"); %>
+<% final String errorId = (String) request.getParameter("errorId"); %>
+<% final String errorMsgKeyUnmatched = "「編集・削除キーが一致しません。」"; %>
 <% String answererName = (String) request.getAttribute("answererName"); %>
 <% String answerContent = (String) request.getAttribute("answerContent"); %>
 <%
@@ -34,6 +36,12 @@
   <main>
     <section class="page-subtitle-container">
       <h1 class="page-subtitle">${question.title}</h1>
+      <!-- 回答登録エラー発生時の処理 -->
+      <% if (errorId != null && (errorId.equals("1") || errorId.equals("2"))) { %>
+          <div class="error-msg-key-unmatched">
+            <p><%= errorMsgKeyUnmatched %></p>
+          </div>
+      <% } %>
     </section>
     <section class="main-outer-wrapper-confirm">
       <div class="main-inner-wrapper-confirm">
@@ -68,7 +76,7 @@
             </div>
             <div class="question-element edit-delete-execute">
               <form name="editForm" method="POST" action="edit">
-                <p class="registered-key"><input type="text" name="editDeleteKey" class="user-input" placeholder="数字４桁以上"></p>
+                <p class="registered-key"><input type="text" name="edit-delete-key" class="user-input" placeholder="数字４桁以上"></p>
                 <input name="question_id" type="hidden" value="${question.questionId}">
               </form>
               <button id="edit-btn" class="edit-execute action-btn">編集する</button>

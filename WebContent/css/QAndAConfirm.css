@@ -6,6 +6,10 @@
 .question-element-wrapper-confirm {
   margin-bottom: 76.6px;
 }
+.error-msg-key-unmatched {
+  color: #F70B0B;
+  font-size: 20px;
+}
 .urgency-levels-confirmed {
   align-items: baseline;
 }
@@ -94,7 +98,7 @@ p.your-answer {
 .your-answer-element > textarea {
   padding: 9px 13px;
 }
-.your-answer-element > p, 
+.your-answer-element > p,
 .your-answer-element > textarea,
 .register-cancel-execute > p {
   border: 1px solid #ccc;
