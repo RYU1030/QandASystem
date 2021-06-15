@@ -35,7 +35,7 @@
               <p>名前（ハンドルネーム）</p>
             </div>
             <div class="question-element">
-              <p class="questioner-name"><input name="handle-name" type="text" class="user-input" placeholder="名前（ハンドルネーム）" value="${question.handleName}"></p>
+              <p class="questioner-name"><input name="questioner-name" type="text" class="user-input" placeholder="名前（ハンドルネーム）" value="${question.handleName}"></p>
             </div>
           </div>
           <div class="question-element-row">
@@ -60,13 +60,13 @@
             </div>
             <div class="question-element urgency-levels-user-input">
               <p class="urgency">
-                <label for="urgent"><input type="radio" name="urgency" value="urgent" id="urgent" <% if (urgency == 1) { %> checked="checked" <% } %>>急いでいます</label>
+                <label for="urgent"><input type="radio" name="urgency" value=1 id="urgent" <% if (urgency == 1) { %> checked="checked" <% } %>>急いでいます</label>
               </p>
               <p class="urgency">
-                <label for="advisable"><input type="radio" name="urgency" value="advisable" id="advisable" <% if (urgency == 2) { %> checked="checked" <% } %>>困っています</label>
+                <label for="advisable"><input type="radio" name="urgency" value=2 id="advisable" <% if (urgency == 2) { %> checked="checked" <% } %>>困っています</label>
               </p>
               <p class="urgency">
-                <label for="anytime"><input type="radio" name="urgency" value="anytime" id="anytime" <% if (urgency == 3) { %> checked="checked" <% } %>>いつでも</label>
+                <label for="anytime"><input type="radio" name="urgency" value=3 id="anytime" <% if (urgency == 3) { %> checked="checked" <% } %>>いつでも</label>
               </p>
             </div>
           </div>
@@ -79,7 +79,7 @@
             </div>
           </div>
         </div>
-        <input type="hidden" name="question_id" value="${question.questionId}">
+        <input type="hidden" name="questionId" value="${question.questionId}">
       </form>
       <div class="register-cancel-execute">
         <button class="register-btn action-btn" id="js-trigger">更新</button>
