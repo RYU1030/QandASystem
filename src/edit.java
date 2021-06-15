@@ -34,8 +34,15 @@ public class edit extends HttpServlet {
 	 * フォワード先（/WEB-INF/JSP/QandAEdit.jsp）
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 編集画面に直接アクセスされた際は、質問一覧画面に強制リダイレクトさせる
-		response.sendRedirect("/QandASystem/list");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAEdit.jsp");
+		Question question = (Question) request.getAttribute("question");
+		if (question != null) {
+			dispatcher.forward(request, response);
+		} else {
+			System.out.println("/editへの直接アクセスは受け付けない。");
+			response.sendRedirect("list");
+			return;
+		}
 	}
 
 	/**
