@@ -245,4 +245,48 @@ public class QuestionsDAO {
     	}
     	return false;
     }
+		// 質問登録の処理
+    public boolean update(Question question) throws SQLException, ClassNotFoundException {
+    	Connection conn = null;  // コネクションオブジェクト
+    	try {
+			// JDBCドライバを読み込む
+			try {
+				Class.forName(DRIVER_NAME);
+			} catch (ClassNotFoundException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
+    		// DBへ接続
+    		conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+    		// INSERT文を用意
+    		String sql = "UPDATE questions SET handle_name=?, title=?, contents=?, urgency=?, edit_delete_key=?, update_timestamp=NOW() WHERE question_id=?";
+    		PreparedStatement pstmt = conn.prepareStatement(sql);
+
+    		pstmt.setString(1, question.getHandleName());
+    		pstmt.setString(2, question.getTitle());
+    		pstmt.setString(3, question.getContents());
+    		pstmt.setInt(4, question.getUrgency());
+    		pstmt.setString(5, question.getEditDeleteKey());
+    		pstmt.setInt(6, question.getQuestionId());
+
+    		int result = pstmt.executeUpdate();
+    		if (result != 1) {
+    			return false;
+    		}
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    		return false;
+    	} finally {
+    		// DB切断
+    		if (conn != null) {
+    			try {
+    				conn.close();
+    			} catch (SQLException e) {
+    				e.printStackTrace();
+    			}
+    		}
+    	}
+    	return false;
+    }
 }
