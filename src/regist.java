@@ -1,5 +1,6 @@
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.PostQuestionLogic;
 import model.Question;
+import sandbox.Hashing;
 
 /**
  * registは、/registにアクセスされた際の処理を定義するサーブレットクラスです。
@@ -52,6 +54,18 @@ public class regist extends HttpServlet {
 		String EditDeleteKey = request.getParameter("register-cancel-key");
 
 		if (questionerName != "" && questionTitle != "" && questionContent != "" && questionUrgency != 0 ) {
+			// 編集・削除キーが空でなければ、キーのハッシュ化を行う
+			if (EditDeleteKey != "") {
+				try {
+					Hashing Hashing = new Hashing();
+					EditDeleteKey = Hashing.hash(EditDeleteKey);
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAError.jsp");
+					dispatcher.forward(request, response);
+		    	return;
+				}
+			}
 			Question question = new Question(questionerName, questionTitle, questionContent, questionUrgency, EditDeleteKey);
 			PostQuestionLogic postQuestionLogic = new PostQuestionLogic();
 			postQuestionLogic.execute(question);

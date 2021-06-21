@@ -1,6 +1,7 @@
 
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.Question;
 import model.UpdateQuestionLogic;
+import sandbox.Hashing;
 
 /**
  * Servlet implementation class editComplete
@@ -55,6 +57,15 @@ public class editComplete extends HttpServlet {
 		String EditDeleteKey = request.getParameter("edit-delete-key");
 
 		if (questionerName != "" && questionTitle != "" && questionContent != "" && questionUrgency != 0 && EditDeleteKey != "") {
+			try {
+				Hashing Hashing = new Hashing();
+				EditDeleteKey = Hashing.hash(EditDeleteKey);
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAError.jsp");
+				dispatcher.forward(request, response);
+	    	return;
+			}
 			Question question = new Question(questionId, questionerName, questionTitle, questionContent, questionUrgency, EditDeleteKey);
 			UpdateQuestionLogic UpdateQuestionLogic = new UpdateQuestionLogic();
 			try {
@@ -73,6 +84,7 @@ public class editComplete extends HttpServlet {
 			request.setAttribute("errorMsg", "必須項目のいずれか（名前/タイトル/内容/緊急度）が未入力/未選択です。");
 			Question question = new Question(questionId, questionerName, questionTitle, questionContent, questionUrgency, EditDeleteKey);
 			request.setAttribute("question", question);
+			request.setAttribute("errorMsg", "更新できませんでした。全項目入力の上、再度更新ボタンを押してください。");
 			// response.sendRedirect("/QandASystem/edit");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAEdit.jsp");
 			dispatcher.forward(request, response);

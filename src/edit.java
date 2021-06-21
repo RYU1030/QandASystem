@@ -1,6 +1,7 @@
 
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.Question;
 import model.VerifyKeyGetQuestionLogic;
+import sandbox.Hashing;
 
 /**
  * Servlet implementation class edit
@@ -39,7 +41,6 @@ public class edit extends HttpServlet {
 		if (question != null) {
 			dispatcher.forward(request, response);
 		} else {
-			System.out.println("/editへの直接アクセスは受け付けない。");
 			response.sendRedirect("list");
 			return;
 		}
@@ -53,7 +54,6 @@ public class edit extends HttpServlet {
 		// フォーム送信によってpostされた値を変数に格納
 		int questionId = Integer.parseInt(request.getParameter("question_id"));
 		String editDeleteKey = request.getParameter("edit-delete-key");
-
 		// 「編集・削除キー」がNULLではない場合に限り、DBへの問い合わせを行う
 		if (questionId > 0 && editDeleteKey != "") {
 			VerifyKeyGetQuestionLogic VerifyKeyGetQuestionLogic = new VerifyKeyGetQuestionLogic();
@@ -62,6 +62,13 @@ public class edit extends HttpServlet {
 				Question question = VerifyKeyGetQuestionLogic.execute(questionId);
 				// 取得した質問情報から「編集・削除キー」を変数に格納する
 				String verifyKey = question.getEditDeleteKey();
+				try {
+					Hashing Hashing = new Hashing();
+					editDeleteKey = Hashing.hash(editDeleteKey);
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+		    	return;
+				}
 				// POSTされた「編集・削除キー」がDBの値と一致した場合は、取得した質問情報をJSPに渡し、編集画面に遷移する
 				if (editDeleteKey.equals(verifyKey)) {
 					request.setAttribute("question", question);
