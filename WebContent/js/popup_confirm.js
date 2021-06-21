@@ -24,7 +24,7 @@ function editPopup() {
   function sendEditForm(elem) {
     if (!elem) return;
     elem.addEventListener('click', function () {
-      document.editForm.submit();
+      document.editDeleteForm.submit();
     });
   }
 }

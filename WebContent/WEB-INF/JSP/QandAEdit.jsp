@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="model.Question" %>
 <% Question question = (Question) request.getAttribute("question"); %>
+<% String errorMsg = (String) request.getAttribute("errorMsg"); %>
 <% int urgency = (int) question.getUrgency(); %>
 <!DOCTYPE html>
 <html lang="ja">
@@ -26,6 +27,11 @@
   <main>
     <section class="page-subtitle-container">
       <h1 class="page-subtitle">質問編集</h1>
+      <% if (errorMsg != null) { %>
+        <div class="error-msg">
+          <p><%= errorMsg %></p>
+        </div>
+      <% } %>
     </section>
     <section class="main-outer-wrapper-common">
       <form name="updatedForm" action="editComplete" method="POST">
@@ -75,7 +81,7 @@
               <p>編集・削除キー</p>
             </div>
             <div class="register-cancel">
-              <p class="register-cancel-key"><input name="edit-delete-key" type="text" class="user-input" placeholder="数字4桁以上"></p>
+              <p class="register-cancel-key"><input name="edit-delete-key" type="text" class="user-input" placeholder="例）1234, abc"></p>
             </div>
           </div>
         </div>

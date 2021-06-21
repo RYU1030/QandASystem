@@ -3,7 +3,7 @@
 <%@ page import="model.Question, model.Answer, java.util.Date, java.util.List" %>
 <% String errorMsgAnswer = (String) request.getAttribute("errorMsgAnswer"); %>
 <% String errorId = (String) request.getParameter("errorId"); %>
-<% String errorMsgKeyUnmatched = "「編集・削除キーが一致しません。」"; %>
+<% String errorMsgKeyUnmatched = "「編集・削除キー」が一致しません。"; %>
 <% String answererName = (String) request.getAttribute("answererName"); %>
 <% String answerContent = (String) request.getAttribute("answerContent"); %>
 <%
@@ -75,8 +75,8 @@
               <p>編集・削除キー</p>
             </div>
             <div class="question-element edit-delete-execute">
-              <form name="editForm" method="POST" action="edit">
-                <p class="registered-key"><input type="text" name="edit-delete-key" class="user-input" placeholder="数字４桁以上"></p>
+              <form name="editDeleteForm" method="POST" action="edit">
+                <p class="registered-key"><input type="text" name="edit-delete-key" class="user-input" placeholder="例）1234, abc"></p>
                 <input name="question_id" type="hidden" value="${question.questionId}">
               </form>
               <button id="edit-btn" class="edit-execute action-btn">編集する</button>
