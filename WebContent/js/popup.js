@@ -10,6 +10,7 @@ function popup() {
   const showBtn = document.getElementById('js-trigger');
 
   const questionRegistryBtn = document.getElementById('question-registry-btn');
+  const updateConfirmedBtn = document.getElementById('update-confirmed-btn');
 
   closePopUp(blackBg);
   closePopUp(closeBtn);
@@ -21,13 +22,19 @@ function popup() {
       popup.classList.toggle('is-show');
     });
   }
-
   sendQuestionForm(questionRegistryBtn);
   function sendQuestionForm(elem) {
     if (!elem) return;
     elem.addEventListener('click', function () {
       document.questionForm.submit();
     })
+  }
+  sendUpdatedForm(updateConfirmedBtn);
+  function sendUpdatedForm(elem) {
+    if (!elem) return;
+    elem.addEventListener('click', function () {
+      document.updatedForm.submit();
+    });
   }
 }
 popup();

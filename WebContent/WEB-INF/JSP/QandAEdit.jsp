@@ -1,4 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="model.Question" %>
+<% Question question = (Question) request.getAttribute("question"); %>
+<% String errorMsg = (String) request.getAttribute("errorMsg"); %>
+<% int urgency = (int) question.getUrgency(); %>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -10,6 +14,8 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/fontawesome.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/QAndACommon.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
 </head>
 
 <body>
@@ -21,61 +27,69 @@
   <main>
     <section class="page-subtitle-container">
       <h1 class="page-subtitle">質問編集</h1>
+      <% if (errorMsg != null) { %>
+        <div class="error-msg">
+          <p><%= errorMsg %></p>
+        </div>
+      <% } %>
     </section>
     <section class="main-outer-wrapper-common">
-      <div class="main-inner-wrapper-common">
-        <div class="question-element-row">
-          <div class="question-element-title">
-            <p>名前（ハンドルネーム）</p>
+      <form name="updatedForm" action="editComplete" method="POST">
+        <div class="main-inner-wrapper-common">
+          <div class="question-element-row">
+            <div class="question-element-title">
+              <p>名前（ハンドルネーム）</p>
+            </div>
+            <div class="question-element">
+              <p class="questioner-name"><input name="questioner-name" type="text" class="user-input" placeholder="名前（ハンドルネーム）" value="${question.handleName}"></p>
+            </div>
           </div>
-          <div class="question-element">
-            <p class="questioner-name"><input type="text" class="user-input" placeholder="名前（ハンドルネーム）"></p>
+          <div class="question-element-row">
+            <div class="question-element-title">
+              <p>タイトル</p>
+            </div>
+            <div class="question-element">
+              <p class="question-title"><input name="question-title" type="text" class="user-input" placeholder="タイトル" value="${question.title}"></p>
+            </div>
+          </div>
+          <div class="question-element-row">
+            <div class="question-element-title">
+              <p>内容</p>
+            </div>
+            <div class="question-element">
+              <textarea name="question-content" class="question-content" cols="30" rows="15" placeholder="内容">${question.contents}</textarea>
+            </div>
+          </div>
+          <div class="question-element-row urgency-levels">
+            <div class="question-element-title">
+              <p>緊急度</p>
+            </div>
+            <div class="question-element urgency-levels-user-input">
+              <p class="urgency">
+                <label for="urgent"><input type="radio" name="urgency" value=1 id="urgent" <% if (urgency == 1) { %> checked="checked" <% } %>>急いでいます</label>
+              </p>
+              <p class="urgency">
+                <label for="advisable"><input type="radio" name="urgency" value=2 id="advisable" <% if (urgency == 2) { %> checked="checked" <% } %>>困っています</label>
+              </p>
+              <p class="urgency">
+                <label for="anytime"><input type="radio" name="urgency" value=3 id="anytime" <% if (urgency == 3) { %> checked="checked" <% } %>>いつでも</label>
+              </p>
+            </div>
+          </div>
+          <div class="question-element-row">
+            <div class="question-element-title">
+              <p>編集・削除キー</p>
+            </div>
+            <div class="register-cancel">
+              <p class="register-cancel-key"><input name="edit-delete-key" type="text" class="user-input" placeholder="例）1234, abc"></p>
+            </div>
           </div>
         </div>
-        <div class="question-element-row">
-          <div class="question-element-title">
-            <p>タイトル</p>
-          </div>
-          <div class="question-element">
-            <p class="question-title"><input type="text" class="user-input" placeholder="タイトル"></p>
-          </div>
-        </div>
-        <div class="question-element-row">
-          <div class="question-element-title">
-            <p>内容</p>
-          </div>
-          <div class="question-element">
-            <textarea class="question-content" cols="30" rows="15" placeholder="内容"></textarea>
-          </div>
-        </div>
-        <div class="question-element-row urgency-levels">
-          <div class="question-element-title">
-            <p>緊急度</p>
-          </div>
-          <div class="question-element urgency-levels-user-input">
-            <p class="urgency">
-              <label for="urgent"><input type="radio" name="urgency" value="urgent" id="urgent">急いでいます</label>
-            </p>
-            <p class="urgency">
-              <label for="advisable"><input type="radio" name="urgency" value="advisable" id="advisable">困っています</label>
-            </p>
-            <p class="urgency">
-              <label for="anytime"><input type="radio" name="urgency" value="anytime" id="anytime">いつでも</label>
-            </p>
-          </div>
-        </div>
-        <div class="question-element-row">
-          <div class="question-element-title">
-            <p>編集・削除キー</p>
-          </div>
-          <div class="register-cancel">
-            <p class="register-cancel-key"><input type="text" class="user-input" placeholder="数字4桁以上"></p>
-          </div>
-        </div>
-      </div>
+        <input type="hidden" name="questionId" value="${question.questionId}">
+      </form>
       <div class="register-cancel-execute">
         <button class="register-btn action-btn" id="js-trigger">更新</button>
-        <p class="cancel-btn"><a class="action-btn" href="list">キャンセル</a></p>
+        <p class="cancel-btn"><a class="action-btn" href="confirm?questionId=${question.questionId}">キャンセル</a></p>
       </div>
     </section>
     <div class="popup" id="js-popup">
@@ -83,7 +97,7 @@
         <div class="close-btn" id="js-close-btn"><i class="fas fa-times"></i></div>
         <div class="request-confirmation">
           <p>更新します。よろしいですか。</p>
-          <a class="request-confirmed" href="editComplete">更新</a>
+          <button class="request-confirmed" id="update-confirmed-btn">更新</button>
           <button class="request-canceled" id="request-canceled">キャンセル</button>
         </div>
       </div>

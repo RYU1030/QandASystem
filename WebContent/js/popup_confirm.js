@@ -8,6 +8,8 @@ function editPopup() {
   const cancelBtn = document.getElementById('edit-cancel-btn')
   const showBtn = document.getElementById('edit-btn');
 
+  const editConfirmedBtn = document.getElementById('edit-confirmed-btn');
+
   closePopUp(blackBg);
   closePopUp(closeBtn);
   closePopUp(cancelBtn);
@@ -16,6 +18,13 @@ function editPopup() {
     if (!elem) return;
     elem.addEventListener('click', function () {
       popup.classList.toggle('is-show');
+    });
+  }
+  sendEditForm(editConfirmedBtn);
+  function sendEditForm(elem) {
+    if (!elem) return;
+    elem.addEventListener('click', function () {
+      document.editDeleteForm.submit();
     });
   }
 }
@@ -69,7 +78,7 @@ function sendAnswerPopup() {
     if (!elem) return;
     elem.addEventListener('click', function () {
       document.answerForm.submit();
-    })
+    });
   }
 }
 

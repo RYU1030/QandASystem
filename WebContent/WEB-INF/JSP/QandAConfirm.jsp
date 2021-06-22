@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="model.Question, model.Answer, java.util.Date, java.util.List" %>
 <% String errorMsgAnswer = (String) request.getAttribute("errorMsgAnswer"); %>
+<% String errorId = (String) request.getParameter("errorId"); %>
+<% String errorMsgKeyUnmatched = "「編集・削除キー」が一致しません。"; %>
 <% String answererName = (String) request.getAttribute("answererName"); %>
 <% String answerContent = (String) request.getAttribute("answerContent"); %>
 <%
@@ -34,6 +36,12 @@
   <main>
     <section class="page-subtitle-container">
       <h1 class="page-subtitle">${question.title}</h1>
+      <!-- 回答登録エラー発生時の処理 -->
+      <% if (errorId != null && (errorId.equals("1") || errorId.equals("2"))) { %>
+          <div class="error-msg-key-unmatched">
+            <p><%= errorMsgKeyUnmatched %></p>
+          </div>
+      <% } %>
     </section>
     <section class="main-outer-wrapper-confirm">
       <div class="main-inner-wrapper-confirm">
@@ -67,7 +75,10 @@
               <p>編集・削除キー</p>
             </div>
             <div class="question-element edit-delete-execute">
-              <p class="registered-key"><input type="text" class="user-input" placeholder="数字４桁以上"></p>
+              <form name="editDeleteForm" method="POST" action="edit">
+                <p class="registered-key"><input type="text" name="edit-delete-key" class="user-input" placeholder="例）1234, abc"></p>
+                <input name="question_id" type="hidden" value="${question.questionId}">
+              </form>
               <button id="edit-btn" class="edit-execute action-btn">編集する</button>
               <button id="delete-btn" class="delete-execute action-btn">削除する</button>
             </div>
@@ -137,7 +148,7 @@
         <div class="close-btn" id="edit-popup-close-btn"><i class="fas fa-times"></i></div>
         <div class="request-confirmation">
           <p>編集画面に移ります。よろしいですか。</p>
-          <a class="request-confirmed" href="edit">編集する</a>
+          <button id="edit-confirmed-btn" class="request-confirmed">編集する</button>
           <button class="request-canceled" id="edit-cancel-btn">キャンセル</button>
         </div>
       </div>
@@ -148,7 +159,7 @@
         <div class="close-btn" id="delete-popup-close-btn"><i class="fas fa-times"></i></div>
         <div class="request-confirmation">
           <p>削除します。よろしいですか。</p>
-          <a class="request-confirmed" href="delete">削除</a>
+          <button class="request-confirmed">削除</button>
           <button class="request-canceled" id="delete-cancel-btn">キャンセル</button>
         </div>
       </div>
