@@ -86,7 +86,7 @@ public class edit extends HttpServlet {
 			}
 		} else {
 			// 「編集・削除キー」を未入力でPOSTした際は、DBへの問い合わせを行わず、質問確認画面へリダイレクトさせる
-			response.sendRedirect("/QandASystem/confirm?questionId=" + questionId + "&errorId=" + 2);
+			response.sendRedirect("/QandASystem/confirm?questionId=" + questionId + "&errorId=" + 1);
 		}
 	}
 }

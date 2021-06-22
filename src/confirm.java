@@ -38,8 +38,16 @@ public class confirm extends HttpServlet {
 	 * フォワード先（/WEB-INF/JSP/QandAConfirm.jsp）
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// URLパラメータからquestionIdを取得する
-		final int questionId = Integer.parseInt(request.getParameter("questionId"));
+		// 変数questionIdを初期化
+		int questionId = 0;
+		try {
+			// URLパラメータからquestionIdを取得する
+			questionId = Integer.parseInt(request.getParameter("questionId"));
+		} catch (NumberFormatException e) {
+			response.sendRedirect("list");
+			return;
+		}
+
 		GetAnswerListLogic getAnswerListLogic = new GetAnswerListLogic();
 		try {
 			// questionIdを引数に、回答リストを取得してリクエストスコープに保存
@@ -56,12 +64,19 @@ public class confirm extends HttpServlet {
 			dispatcher.forward(request, response);
 			return;
 		}
-		
+
 		SelectQuestionLogic SelectQuestionLogic = new SelectQuestionLogic();
 		try {
-			// questionIdを引数に、該当の質問を取得してリクエストスコープに保存
+			// questionIdを引数に、該当の質問を取得する
 			Question question = SelectQuestionLogic.execute(questionId);
-			request.setAttribute("question", question);
+			// 取得した質問の件数が1以上であれば、questionをJSPに渡す
+			if (question.getQuestionId() > 0) {
+				request.setAttribute("question", question);
+			} else {
+				// 指定されたquestionIdに該当する質問が存在しない場合は、/listにリダイレクト
+				response.sendRedirect("list");
+				return;
+			}
 		} catch (SQLException | ClassNotFoundException e) {
 			// DB関連のエラーをキャッチした時は、エラー画面に遷移させ処理を終わらせる
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAError.jsp");
