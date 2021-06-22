@@ -15,6 +15,8 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/fontawesome.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/QAndACommon.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
 </head>
 
 <body>
