@@ -9,6 +9,7 @@ function editPopup() {
   const showBtn = document.getElementById('edit-btn');
 
   const editConfirmedBtn = document.getElementById('edit-confirmed-btn');
+  const deleteConfirmedBtn = document.getElementById('delete-confirmed-btn');
 
   closePopUp(blackBg);
   closePopUp(closeBtn);
@@ -24,6 +25,15 @@ function editPopup() {
   function sendEditForm(elem) {
     if (!elem) return;
     elem.addEventListener('click', function () {
+      document.editDeleteForm.action = "edit";
+      document.editDeleteForm.submit();
+    });
+  }
+  sendDeleteForm(deleteConfirmedBtn);
+  function sendDeleteForm(elem) {
+    if (!elem) return;
+    elem.addEventListener('click', function () {
+      document.editDeleteForm.action = "delete";
       document.editDeleteForm.submit();
     });
   }

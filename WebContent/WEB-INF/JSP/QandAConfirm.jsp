@@ -75,7 +75,7 @@
               <p>編集・削除キー</p>
             </div>
             <div class="question-element edit-delete-execute">
-              <form name="editDeleteForm" method="POST" action="edit">
+              <form name="editDeleteForm" method="POST" action="">
                 <p class="registered-key"><input type="text" name="edit-delete-key" class="user-input" placeholder="例）1234, abc"></p>
                 <input name="question_id" type="hidden" value="${question.questionId}">
               </form>
@@ -159,7 +159,7 @@
         <div class="close-btn" id="delete-popup-close-btn"><i class="fas fa-times"></i></div>
         <div class="request-confirmation">
           <p>削除します。よろしいですか。</p>
-          <button class="request-confirmed">削除</button>
+          <button id="delete-confirmed-btn" class="request-confirmed">削除</button>
           <button class="request-canceled" id="delete-cancel-btn">キャンセル</button>
         </div>
       </div>
