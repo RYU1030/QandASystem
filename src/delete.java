@@ -35,8 +35,7 @@ public class delete extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.sendRedirect("/QandASystem/list"); // GETメソッドでリクエストは、一覧画面にリダイレクトさせる
 	}
 
 	/**
@@ -64,6 +63,7 @@ public class delete extends HttpServlet {
 				}
 				if (editDeleteKey.equals(verifyKey)) {
 					try {
+						// 外部キー制約があるため、回答情報を削除した質問情報を削除する
 						DeleteAnswerLogic DeleteAnswerLogic = new DeleteAnswerLogic();
 						DeleteQuestionLogic DeleteQuestionLogic = new DeleteQuestionLogic();
 						DeleteAnswerLogic.execute(questionId);
@@ -74,6 +74,7 @@ public class delete extends HttpServlet {
 						dispatcher.forward(request, response);
 						return;
 					}
+					// 処理完了後、質問一覧画面に遷移させる
 					response.sendRedirect("/QandASystem/list");
 				} else {
 					// 入力された「編集・削除キー」と、DBの値が一致しない場合は、errorIdを設定し、元の画面にリダイレクト
