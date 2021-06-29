@@ -28,179 +28,179 @@ public class QuestionsDAO {
     private final static String USER = "ryunosukefukuda";
     private final static String PASSWORD = "password";
 
-		// 質問リスト取得処理
-		public List<Question> findAll() {
-			Connection conn = null;
-			List<Question> questionList = new ArrayList<Question>();
+	// 質問リスト取得処理
+	public List<Question> findAll() {
+		Connection conn = null;
+		List<Question> questionList = new ArrayList<Question>();
+		try {
+			Class.forName(DRIVER_NAME);
+			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+			// SELECT文を用意
+			String sql = "SELECT question_id, handle_name, title, contents, urgency, edit_delete_key, regist_timestamp, update_timestamp FROM questions ORDER BY question_id ASC";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+
+			// SELECT文を実行
+			ResultSet rs = pStmt.executeQuery();
+
+			// SELECT文の結果をArrayListに格納
+			while (rs.next()) {
+				int questionId = rs.getInt("question_id");
+				String handleName = rs.getString("handle_name");
+				String title = rs.getString("title");
+				String contents = rs.getString("contents");
+				int urgency = rs.getInt("urgency");
+				String urgencyMessage;
+				if (urgency == 1) {
+					urgencyMessage = URGENT;
+				} else if (urgency == 2) {
+					urgencyMessage = NEED_ADVICE;
+				} else {
+					urgencyMessage = ANYTIME;
+				}
+				String editDeleteKey = rs.getString("edit_delete_key");
+				// 登録日時をDate型で取得
+				Date registeredDate = rs.getDate("regist_timestamp");
+				// 更新日時をDate型で取得
+				Date updatedDate = rs.getDate("update_timestamp");
+				Question question = new Question();
+				question.setQuestionId(questionId);
+				question.setHandleName(handleName);
+				question.setTitle(title);
+				question.setContents(contents);
+				question.setUrgencyMessage(urgencyMessage);
+				question.setEditDeleteKey(editDeleteKey);
+				question.setRegisteredDate(registeredDate);
+				question.setUpdatedDate(updatedDate);
+				questionList.add(question);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			// DBから切断
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+		}
+		return questionList;
+	}
+
+	// 質問詳細情報の取得
+	public Question questionConfirm(int questionId) throws SQLException, ClassNotFoundException {
+		Connection conn = null;
+		Question question = new Question();
+
+		try {
+			// JDBCドライバを読み込む
 			try {
 				Class.forName(DRIVER_NAME);
-				conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			// DBへ接続
+			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			// SQL文を用意
+			String sql = "SELECT question_id, handle_name, title, contents, urgency, edit_delete_key FROM questions WHERE question_id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, questionId);
 
-				// SELECT文を用意
-				String sql = "SELECT question_id, handle_name, title, contents, urgency, edit_delete_key, regist_timestamp, update_timestamp FROM questions ORDER BY question_id ASC";
-				PreparedStatement pStmt = conn.prepareStatement(sql);
-
-				// SELECT文を実行
-				ResultSet rs = pStmt.executeQuery();
-
-				// SELECT文の結果をArrayListに格納
-				while (rs.next()) {
-					int questionId = rs.getInt("question_id");
-					String handleName = rs.getString("handle_name");
-					String title = rs.getString("title");
-					String contents = rs.getString("contents");
-					int urgency = rs.getInt("urgency");
-					String urgencyMessage;
-					if (urgency == 1) {
-						urgencyMessage = URGENT;
-					} else if (urgency == 2) {
-						urgencyMessage = NEED_ADVICE;
-					} else {
-						urgencyMessage = ANYTIME;
-					}
-					String editDeleteKey = rs.getString("edit_delete_key");
-					// 登録日時をDate型で取得
-					Date registeredDate = rs.getDate("regist_timestamp");
-					// 更新日時をDate型で取得
-					Date updatedDate = rs.getDate("update_timestamp");
-					Question question = new Question();
-					question.setQuestionId(questionId);
-					question.setHandleName(handleName);
-					question.setTitle(title);
-					question.setContents(contents);
-					question.setUrgencyMessage(urgencyMessage);
-					question.setEditDeleteKey(editDeleteKey);
-					question.setRegisteredDate(registeredDate);
-					question.setUpdatedDate(updatedDate);
-					questionList.add(question);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int questionSeqId = rs.getInt("question_id");
+				String handleName = rs.getString("handle_name");
+				String title = rs.getString("title");
+				String contents = rs.getString("contents");
+				int urgency = rs.getInt("urgency");
+				String urgencyMessage;
+				if (urgency == 1) {
+					urgencyMessage = URGENT;
+				} else if (urgency == 2) {
+					urgencyMessage = NEED_ADVICE;
+				} else {
+					urgencyMessage = ANYTIME;
 				}
+				question.setQuestionId(questionSeqId);
+				question.setHandleName(handleName);
+				question.setTitle(title);
+				question.setContents(contents);
+				question.setUrgencyMessage(urgencyMessage);
+			}
 			} catch (SQLException e) {
 				e.printStackTrace();
 				return null;
+			} finally {
+			// DBから切断
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+		}
+		return question;
+	}
+
+	// 質問詳細情報の取得
+	public Question questionEdit(int questionId) throws SQLException, ClassNotFoundException {
+		Connection conn = null;
+		Question question = new Question();
+
+		try {
+			// JDBCドライバを読み込む
+			try {
+				Class.forName(DRIVER_NAME);
 			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			// DBへ接続
+			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			// SQL文を用意
+			String sql = "SELECT question_id, handle_name, title, contents, urgency, edit_delete_key FROM questions WHERE question_id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, questionId);
+
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int questionSeqId = rs.getInt("question_id");
+				String handleName = rs.getString("handle_name");
+				String title = rs.getString("title");
+				String contents = rs.getString("contents");
+				int urgency = rs.getInt("urgency");
+				String editDeleteKey = rs.getString("edit_delete_key");
+				question.setQuestionId(questionSeqId);
+				question.setHandleName(handleName);
+				question.setTitle(title);
+				question.setContents(contents);
+				question.setUrgency(urgency);
+				question.setEditDeleteKey(editDeleteKey);
+			}
+			} catch (SQLException e) {
 				e.printStackTrace();
 				return null;
 			} finally {
-				// DBから切断
-				if (conn != null) {
-					try {
-						conn.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-						return null;
-					}
-				}
-			}
-			return questionList;
-		}
-
-		// 質問詳細情報の取得
-		public Question questionConfirm(int questionId) throws SQLException, ClassNotFoundException {
-			Connection conn = null;
-			Question question = new Question();
-
-			try {
-				// JDBCドライバを読み込む
+			// DBから切断
+			if (conn != null) {
 				try {
-					Class.forName(DRIVER_NAME);
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
-				// DBへ接続
-				conn = DriverManager.getConnection(URL, USER, PASSWORD);
-				// SQL文を用意
-				String sql = "SELECT question_id, handle_name, title, contents, urgency, edit_delete_key FROM questions WHERE question_id = ?";
-				PreparedStatement pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, questionId);
-
-				ResultSet rs = pstmt.executeQuery();
-				while (rs.next()) {
-					int questionSeqId = rs.getInt("question_id");
-					String handleName = rs.getString("handle_name");
-					String title = rs.getString("title");
-					String contents = rs.getString("contents");
-					int urgency = rs.getInt("urgency");
-					String urgencyMessage;
-					if (urgency == 1) {
-						urgencyMessage = URGENT;
-					} else if (urgency == 2) {
-						urgencyMessage = NEED_ADVICE;
-					} else {
-						urgencyMessage = ANYTIME;
-					}
-					question.setQuestionId(questionSeqId);
-					question.setHandleName(handleName);
-					question.setTitle(title);
-					question.setContents(contents);
-					question.setUrgencyMessage(urgencyMessage);
-				}
+					conn.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 					return null;
-				} finally {
-				// DBから切断
-				if (conn != null) {
-					try {
-						conn.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-						return null;
-					}
 				}
 			}
-			return question;
 		}
-
-		// 質問詳細情報の取得
-		public Question questionEdit(int questionId) throws SQLException, ClassNotFoundException {
-			Connection conn = null;
-			Question question = new Question();
-
-			try {
-				// JDBCドライバを読み込む
-				try {
-					Class.forName(DRIVER_NAME);
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
-				// DBへ接続
-				conn = DriverManager.getConnection(URL, USER, PASSWORD);
-				// SQL文を用意
-				String sql = "SELECT question_id, handle_name, title, contents, urgency, edit_delete_key FROM questions WHERE question_id = ?";
-				PreparedStatement pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, questionId);
-
-				ResultSet rs = pstmt.executeQuery();
-				while (rs.next()) {
-					int questionSeqId = rs.getInt("question_id");
-					String handleName = rs.getString("handle_name");
-					String title = rs.getString("title");
-					String contents = rs.getString("contents");
-					int urgency = rs.getInt("urgency");
-					String editDeleteKey = rs.getString("edit_delete_key");
-					question.setQuestionId(questionSeqId);
-					question.setHandleName(handleName);
-					question.setTitle(title);
-					question.setContents(contents);
-					question.setUrgency(urgency);
-					question.setEditDeleteKey(editDeleteKey);
-				}
-				} catch (SQLException e) {
-					e.printStackTrace();
-					return null;
-				} finally {
-				// DBから切断
-				if (conn != null) {
-					try {
-						conn.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-						return null;
-					}
-				}
-			}
-			return question;
-		}
+		return question;
+	}
 
     // 質問登録の処理
     public boolean create(Question question) {
@@ -245,7 +245,7 @@ public class QuestionsDAO {
     	}
     	return false;
     }
-		// 質問登録の処理
+	// 質問情報更新の処理
     public boolean update(Question question) throws SQLException, ClassNotFoundException {
     	Connection conn = null;  // コネクションオブジェクト
     	try {
@@ -259,7 +259,7 @@ public class QuestionsDAO {
     		// DBへ接続
     		conn = DriverManager.getConnection(URL, USER, PASSWORD);
 
-    		// INSERT文を用意
+    		// UPDATE文を用意
     		String sql = "UPDATE questions SET handle_name=?, title=?, contents=?, urgency=?, edit_delete_key=?, update_timestamp=NOW() WHERE question_id=?";
     		PreparedStatement pstmt = conn.prepareStatement(sql);
 
@@ -277,6 +277,46 @@ public class QuestionsDAO {
     	} catch (SQLException e) {
     		e.printStackTrace();
     		return false;
+    	} finally {
+    		// DB切断
+    		if (conn != null) {
+    			try {
+    				conn.close();
+    			} catch (SQLException e) {
+    				e.printStackTrace();
+    			}
+    		}
+    	}
+    	return false;
+    }
+    // 質問情報削除の処理
+    public boolean delete (int questionId) throws SQLException, ClassNotFoundException {
+    	Connection conn = null;  // コネクションオブジェクト
+    	try {
+			// JDBCドライバを読み込む
+			try {
+				Class.forName(DRIVER_NAME);
+			} catch (ClassNotFoundException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
+    		// DBへ接続
+    		conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+    		// DELETE文を用意
+    		String sql = "DELETE FROM questions WHERE question_id = ?";
+    		PreparedStatement pstmt = conn.prepareStatement(sql);
+    		pstmt.setInt(1, questionId);
+    		int result = pstmt.executeUpdate();
+    		if (result != 1) {
+    			return false;
+    		}
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    		return false;
+    	} catch (Exception e) {
+    		conn.rollback();
+    		e.printStackTrace();
     	} finally {
     		// DB切断
     		if (conn != null) {
