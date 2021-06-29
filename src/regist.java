@@ -63,7 +63,7 @@ public class regist extends HttpServlet {
 					e.printStackTrace();
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAError.jsp");
 					dispatcher.forward(request, response);
-		    	return;
+					return;
 				}
 			}
 			Question question = new Question(questionerName, questionTitle, questionContent, questionUrgency, EditDeleteKey);
