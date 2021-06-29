@@ -67,7 +67,7 @@ public class edit extends HttpServlet {
 					editDeleteKey = Hashing.hash(editDeleteKey);
 				} catch (NoSuchAlgorithmException e) {
 					e.printStackTrace();
-		    	return;
+					return;
 				}
 				// POSTされた「編集・削除キー」がDBの値と一致した場合は、取得した質問情報をJSPに渡し、編集画面に遷移する
 				if (editDeleteKey.equals(verifyKey)) {
