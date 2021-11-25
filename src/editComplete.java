@@ -58,7 +58,11 @@ public class editComplete extends HttpServlet {
 		}
 		String EditDeleteKey = request.getParameter("edit-delete-key");
 
-		if (questionerName != "" && questionTitle != "" && questionContent != "" && questionUrgency != 0 && EditDeleteKey != "") {
+		if (questionerName != "" &&
+			questionTitle != "" &&
+			questionContent != "" &&
+			questionUrgency != 0 &&
+			EditDeleteKey != "") {
 			try {
 				Hashing Hashing = new Hashing();
 				EditDeleteKey = Hashing.hash(EditDeleteKey);
