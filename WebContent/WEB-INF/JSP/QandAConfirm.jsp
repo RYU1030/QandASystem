@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="model.Question, model.Answer, java.util.Date, java.util.List" %>
 <% String errorMsgAnswer = (String) request.getAttribute("errorMsgAnswer"); %>
 <% String errorId = (String) request.getParameter("errorId"); %>
@@ -35,7 +36,7 @@
   </header>
   <main>
     <section class="page-subtitle-container">
-      <h1 class="page-subtitle">${question.title}</h1>
+      <h1 class="page-subtitle"><c:out value="${question.title}" /></h1>
       <!-- 回答登録エラー発生時の処理 -->
       <% if (errorId != null && (errorId.equals("1") || errorId.equals("2"))) { %>
           <div class="error-msg-key-unmatched">
@@ -51,7 +52,7 @@
               <p>質問者名</p>
             </div>
             <div class="question-element">
-              <p class="user-input questioner-name">${question.handleName}</p>
+              <p class="user-input questioner-name"><c:out value="${question.handleName}" /></p>
             </div>
           </div>
           <div class="question-element-row">
@@ -59,7 +60,7 @@
               <p>質問内容</p>
             </div>
             <div class="question-element">
-              <p class="question-content">${question.contents}</p>
+              <p class="question-content"><c:out value="${question.contents}" /></p>
             </div>
           </div>
           <div class="question-element-row urgency-levels-confirmed">
@@ -90,9 +91,9 @@
             <!-- 以降は後ほど繰り返し処理で描画する -->
             <c:forEach var="answer" items="${answerList}">
             <div class="each-answer">
-              <p class="answerer-name answer-element">${answer.handleName}</p>
+              <p class="answerer-name answer-element"><c:out value="${answer.handleName}" /></p>
               <p class="posted-at answer-element">${answer.registDateTime}</p>
-              <p class="answer answer-element">${answer.contents}</p>
+              <p class="answer answer-element"><c:out value="${answer.contents}" /></p>
             </div>
             </c:forEach>
           <!-- 未回答の場合は、下記を表示する -->
