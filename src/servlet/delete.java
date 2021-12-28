@@ -1,4 +1,4 @@
-
+package servlet;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -10,40 +10,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.DeleteAnswerLogic;
+import model.DeleteQuestionLogic;
 import model.Question;
 import model.VerifyKeyGetQuestionLogic;
 import sandbox.Hashing;
 
 /**
- * Servlet implementation class edit
- * @author Ryunosuke Fukuda
- * @version 1.0
+ * Servlet implementation class delete
  */
-@WebServlet("/edit")
-public class edit extends HttpServlet {
+@WebServlet("/delete")
+public class delete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public edit() {
+    public delete() {
         super();
         // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 * フォワード先（/WEB-INF/JSP/QandAEdit.jsp）
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAEdit.jsp");
-		Question question = (Question) request.getAttribute("question");
-		if (question != null) {
-			dispatcher.forward(request, response);
-		} else {
-			response.sendRedirect("list");
-			return;
-		}
+		response.sendRedirect("/QandARoom/list"); // GETメソッドでリクエストは、一覧画面にリダイレクトさせる
 	}
 
 	/**
@@ -69,24 +61,31 @@ public class edit extends HttpServlet {
 					e.printStackTrace();
 					return;
 				}
-				// POSTされた「編集・削除キー」がDBの値と一致した場合は、取得した質問情報をJSPに渡し、編集画面に遷移する
 				if (editDeleteKey.equals(verifyKey)) {
-					request.setAttribute("question", question);
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAEdit.jsp");
-					dispatcher.forward(request, response);
+					try {
+						// 外部キー制約があるため、回答情報を削除した質問情報を削除する
+						DeleteAnswerLogic DeleteAnswerLogic = new DeleteAnswerLogic();
+						DeleteQuestionLogic DeleteQuestionLogic = new DeleteQuestionLogic();
+						DeleteAnswerLogic.execute(questionId);
+						DeleteQuestionLogic.execute(questionId);
+					} catch (Exception e) {
+						// 予期せぬエラーをキャッチした時も同様に、エラー画面に遷移させ処理を終わらせる
+						RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAError.jsp");
+						dispatcher.forward(request, response);
+						return;
+					}
+					// 処理完了後、質問一覧画面に遷移させる
+					response.sendRedirect("/QandARoom/list");
 				} else {
 					// 入力された「編集・削除キー」と、DBの値が一致しない場合は、errorIdを設定し、元の画面にリダイレクト
-					response.sendRedirect("/QandASystem/confirm?questionId=" + questionId + "&errorId=" + 1);
+					response.sendRedirect("/QandARoom/confirm?questionId=" + questionId + "&errorId=" + 2);
 				}
 			} catch (Exception e) {
-				// 予期せぬエラーをキャッチした時も同様に、エラー画面に遷移させ処理を終わらせる
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAError.jsp");
-				dispatcher.forward(request, response);
-				return;
+				e.printStackTrace();
 			}
 		} else {
 			// 「編集・削除キー」を未入力でPOSTした際は、DBへの問い合わせを行わず、質問確認画面へリダイレクトさせる
-			response.sendRedirect("/QandASystem/confirm?questionId=" + questionId + "&errorId=" + 1);
+			response.sendRedirect("/QandARoom/confirm?questionId=" + questionId + "&errorId=" + 2);
 		}
 	}
 }
