@@ -1,4 +1,4 @@
-
+package servlet;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -76,7 +76,7 @@ public class edit extends HttpServlet {
 					dispatcher.forward(request, response);
 				} else {
 					// 入力された「編集・削除キー」と、DBの値が一致しない場合は、errorIdを設定し、元の画面にリダイレクト
-					response.sendRedirect("/QandASystem/confirm?questionId=" + questionId + "&errorId=" + 1);
+					response.sendRedirect("/QandARoom/confirm?questionId=" + questionId + "&errorId=" + 1);
 				}
 			} catch (Exception e) {
 				// 予期せぬエラーをキャッチした時も同様に、エラー画面に遷移させ処理を終わらせる
@@ -86,7 +86,7 @@ public class edit extends HttpServlet {
 			}
 		} else {
 			// 「編集・削除キー」を未入力でPOSTした際は、DBへの問い合わせを行わず、質問確認画面へリダイレクトさせる
-			response.sendRedirect("/QandASystem/confirm?questionId=" + questionId + "&errorId=" + 1);
+			response.sendRedirect("/QandARoom/confirm?questionId=" + questionId + "&errorId=" + 1);
 		}
 	}
 }

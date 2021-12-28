@@ -1,3 +1,4 @@
+package servlet;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -70,7 +71,7 @@ public class regist extends HttpServlet {
 			PostQuestionLogic postQuestionLogic = new PostQuestionLogic();
 			postQuestionLogic.execute(question);
 
-			response.sendRedirect("/QandASystem/list");
+			response.sendRedirect("/QandARoom/list");
 		} else {
 			// 必須項目一つでも未入力の場合は、エラーメッセージを定義の上、質問登録画面にフォワードする。
 			request.setAttribute("errorMsg", "必須項目のいずれか（名前/タイトル/内容/緊急度）が未入力/未選択です。");

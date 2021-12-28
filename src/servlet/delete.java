@@ -1,4 +1,4 @@
-
+package servlet;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -35,7 +35,7 @@ public class delete extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect("/QandASystem/list"); // GETメソッドでリクエストは、一覧画面にリダイレクトさせる
+		response.sendRedirect("/QandARoom/list"); // GETメソッドでリクエストは、一覧画面にリダイレクトさせる
 	}
 
 	/**
@@ -75,17 +75,17 @@ public class delete extends HttpServlet {
 						return;
 					}
 					// 処理完了後、質問一覧画面に遷移させる
-					response.sendRedirect("/QandASystem/list");
+					response.sendRedirect("/QandARoom/list");
 				} else {
 					// 入力された「編集・削除キー」と、DBの値が一致しない場合は、errorIdを設定し、元の画面にリダイレクト
-					response.sendRedirect("/QandASystem/confirm?questionId=" + questionId + "&errorId=" + 2);
+					response.sendRedirect("/QandARoom/confirm?questionId=" + questionId + "&errorId=" + 2);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else {
 			// 「編集・削除キー」を未入力でPOSTした際は、DBへの問い合わせを行わず、質問確認画面へリダイレクトさせる
-			response.sendRedirect("/QandASystem/confirm?questionId=" + questionId + "&errorId=" + 2);
+			response.sendRedirect("/QandARoom/confirm?questionId=" + questionId + "&errorId=" + 2);
 		}
 	}
 }
