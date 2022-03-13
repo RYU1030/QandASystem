@@ -78,14 +78,14 @@ public class editComplete extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAError.jsp");
 				dispatcher.forward(request, response);
 			}
-			response.sendRedirect("/QandARoom/confirm?questionId=" + questionId);
+			response.sendRedirect("/QandASystem/confirm?questionId=" + questionId);
 		} else {
 			// 必須項目一つでも未入力の場合は、エラーメッセージを定義の上、質問登録画面にフォワードする。
 			request.setAttribute("errorMsg", "必須項目のいずれか（名前/タイトル/内容/緊急度）が未入力/未選択です。");
 			Question question = new Question(questionId, questionerName, questionTitle, questionContent, questionUrgency, EditDeleteKey);
 			request.setAttribute("question", question);
 			request.setAttribute("errorMsg", "更新できませんでした。全項目入力の上、再度更新ボタンを押してください。");
-			// response.sendRedirect("/QandARoom/edit");
+			// response.sendRedirect("/QandASystem/edit");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/QandAEdit.jsp");
 			dispatcher.forward(request, response);
 		}
